@@ -1,0 +1,94 @@
+<html>
+  <head>
+   <title>html-whitelist</title>
+  </head>
+  <body>
+    <h1>html-whitelist</h1>
+    <p>
+      A wrapper around the html5lib library for sanitizing HTML.
+    </p>
+    <h3>GET requests</h3>
+    <p>
+      The <code><strong>url</strong></code> parameter can be used to refer to a page of HTML content to be sanitized.  Examples:
+    </p>
+    <ul>
+      <li><code>GET</code> <a href="/whitelist?url={{ examples_url }}/clean.html">/whitelist?url=http://example.com/clean.html</a></li>
+      <li><code>GET</code> <a href="/whitelist?url={{ examples_url }}/dirty.html">/whitelist?url=http://example.com/dirty.html</a></li>
+    </ul>
+    <p>
+      Alternatively, the <code><strong>content</strong></code> parameter can be used to include the HTML in the <code>GET</code> request itself. Examples:
+    </p>
+    <ul>
+      <li><code>GET</code> <a href="/whitelist?content=%3Cp%3Esafe+html%3C/p%3E">/whitelist?content=%3Cp%3Esafe+html%3C/p%3E</a></li>
+      <li><code>GET</code> <a href="/whitelist?content=%3Cscript%3Escary+html%3C/script%3E">/whitelist?content=%3Cscript%3Escary+html%3C/script%3E</a></li>
+    </ul>
+    <p>
+      The <code><strong>json</strong></code> parameter will wrap the
+      response in a JSON dictionary under the key <code>html</code>.  Examples:
+    </p>
+    <ul>
+      <li><code>GET</code> <a href="/whitelist?content=%3Cp%3Esafe+html%3C/p%3E&json=1">/whitelist?content=%3Cp%3Esafe+html%3C/p%3E&json=1</a></li>
+      <li><code>GET</code> <a href="/whitelist?content=%3Cscript%3Escary+html%3C/script%3E&json=1">/whitelist?content=%3Cscript%3Escary+html%3C/script%3E&json=1</a></li>
+    </ul>
+    <p>
+      The <code><strong>callback=<em>foo</em></strong></code>
+      parameter will enable JSONP-style callbacks, suitable for use
+      within a &lt;script src&gt; tag. Examples:
+    </p>
+    <ul>
+      <li><code>GET</code> <a href="/whitelist?content=%3Cp%3Esafe+html%3C/p%3E&callback=foo">/whitelist?content=%3Cp%3Esafe+html%3C/p%3E&callback=foo</a></li>
+      <li><code>GET</code> <a href="/whitelist?content=%3Cscript%3Escary+html%3C/script%3E&callback=foo">/whitelist?content=%3Cscript%3Escary+html%3C/script%3E&callback=foo</a></li>
+    </ul>
+    <p>
+      The <code><strong>mode</strong></code> parameter will swap in alternative sanitizers.  At this time, only the default permissive-but-safe <code>default</code> mode, and the
+      restrictive <code>atwood</code> mode (see <a href="http://refactormycode.com/codes/333-sanitize-html">here</a>) are supported.  Examples:
+    </p>
+    <ul>
+      <li><code>GET</code> <a href="/whitelist?content=%3Cp%3E%3Ccite%3EAnathem%3C/cite%3E by Neal Stephenson%3C/p%3E&mode=default">/whitelist?content=%3Cp%3E%3Ccite%3EAnathem%3C/cite%3E by Neal Stephenson%3C/p%3E&mode=default</a></li>
+      <li><code>GET</code> <a href="/whitelist?content=%3Cp%3E%3Ccite%3EAnathem%3C/cite%3E by Neal Stephenson%3C/p%3E&mode=atwood">/whitelist?content=%3Cp%3E%3Ccite%3EAnathem%3C/cite%3E by Neal Stephenson%3C/p%3E&mode=atwood</a></li>
+    </ul>
+    <h3>POST requests</h3>
+    <p>
+      <code>POST</code> requests to <code>/whitelist</code> can be
+      either <code>multipart/form-data</code>
+      or <code>application/x-www-form-urlencoded</code> encoded.  If a
+      key named <code>content</code> is present then the value will
+      be sanitized.  If not, the entire request body will be sanitized.
+    </p>
+    <p>
+      <code>POST</code> requests also accept
+      the <code><strong>json</strong></code>, <code><strong>callback</strong></code>,
+      and <code><strong>mode</strong></code> parameters.
+    </p>
+    <form action="/whitelist" method="post">
+      <fieldset>
+        <legend>Demonstration using POST</legend>
+        <p>
+          <label for="content">Enter HTML to be sanitized:</label>
+          <br>
+          <textarea name="content" cols="80" rows="8">The &lt;strong&gt;quick&lt;/strong&gt; brown fox &lt;script src="http://evil.com"&gt; jumps &lt;kbd&gt;over&lt;/kbd&gt; the &lt;em&gt;lazy&lt;/em&gt; dog.</textarea>
+        </p>
+        <p>
+          <label for="content">Select a response format:</label>
+          <br>
+          <input type="radio" name="json" value="0" checked="1">html
+          <br>
+          <input type="radio" name="json" value="1">json
+        </p>
+        <p>
+          <label for="mode">Select a mode:</label>
+          <br>
+          <input type="radio" name="mode" value="default" checked="1">default
+          <br>
+          <input type="radio" name="mode" value="atwood">atwood
+        </p>
+        <p>
+          <input type="submit" value="Submit">
+        </p>
+      </fieldset>
+    </form>
+
+
+    <p>Copyright <a href="http://unto.net/">DeWitt Clinton</a> - <a href="http://appengine-html-whitelist.googlecode.com/">Source</a> - <a href="http://friendfeed.com/e/d943d089-e0d3-4344-8e83-1a52a71e82c4/html-whitelist/">Discuss</a></p>
+  </body>
+</html>
