@@ -5,3 +5,4 @@ syntax:glob
 *.pyo
 ipython_log.py
 nbproject
+*~

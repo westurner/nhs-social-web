@@ -1,4 +1,4 @@
-﻿application: aep-sample
+﻿application: nhs-adoptions
 version: 1
 runtime: python
 api_version: 1

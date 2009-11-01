@@ -1,0 +1,6 @@
+<a href="{{ object.get_absolute_url }}"><h3>{{ object.name|capfirst }} the {{ object.breed }}</h3></a>
+
+<p>{{ object.gender }} ({{ object.spayed_or_neutered }})
+{{ object.main_color }} {{ object.breed }}. 
+{{ object.gender_str|capfirst }}'s {{ object.age_str }} old and was brought to the shelter on {{ object.brought_to_shelter|date:"F jS, Y" }}</p>
+<p class="description">{{ object.description }}</p>
