@@ -29,7 +29,7 @@ if on_production_server:
     SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '1234567890'
+SECRET_KEY = '000012x2300:31---0234--234e3,234'
 
 #ENABLE_PROFILER = True
 #ONLY_FORCED_PROFILE = True
@@ -39,7 +39,7 @@ SECRET_KEY = '1234567890'
 #PROFILE_PATTERN = 'ext.db..+\((?:get|get_by_key_name|fetch|count|put)\)'
 
 # Enable I18N and set default language to 'en'
-USE_I18N = True
+USE_I18N = False
 LANGUAGE_CODE = 'en'
 
 # Restrict supported languages (and JS media generation)
@@ -90,7 +90,9 @@ INSTALLED_APPS = (
     'jquery',
 
     # Add blueprint CSS (http://blueprintcss.org/)
-    'blueprintcss',
+    #'blueprintcss',
+    # Add 960gs CSS (http://960gs.com
+    'css960',
 
     'django.contrib.auth',
     'django.contrib.sessions',
@@ -101,9 +103,9 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'appenginepatcher',
     'ragendja',
-    'myapp',
     'registration',
     'mediautils',
+    'nebhs',
 )
 
 # List apps which should be left out from app settings and urlsauto loading
@@ -133,5 +135,13 @@ DATABASE_OPTIONS = {
     # Change domain (default: <remoteid>.appspot.com)
     #'remote_host': 'bla.com',
 }
+
+
+DEBUG = True
+INTERNAL_IPS = [
+'127.0.0.1',
+]
+
+ROOT_URLCONF='urls'
 
 from ragendja.settings_post import *

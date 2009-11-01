@@ -1,5 +1,7 @@
 /* Add your global CSS (i.e., code that is project-specific and not part of any app) here. */
 
+
+/*
 body {
   padding: 15px 20px;
 }
@@ -12,4 +14,25 @@ body {
 
 #footer {
   clear: both;
+} */
+html {
+    background: url(logo_hand_lightgray.488x600.png) right no-repeat;
+
 }
+
+ul.animal_details, ul.animal_list { list-style-type: none }
+ul.animal_details li, ul.animal_list li { margin-left: 0; }
+
+div.animal_photo, #disqus_thread { background: #E5ECF9;border: #D7E5ED; width: 100% }
+
+div.animal_photo {
+border: #d7d7d7;
+padding: 4em 1em 1em 1em;
+margin-top:3em""
+}
+
+#disqus_thread {
+padding:1em;
+}
+
+h2.help_me { margin-bottom: 0; text-align: center; }

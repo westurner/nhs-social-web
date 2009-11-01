@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+
+{% include "nebhs/animal_include_full.html" %}
+
+<div class="clear"> </div>
+
+<div class="grid_7 prefix_6">
+
+
+<div class="clear"> </div>
+<a href="{% url nebhs.views.list_animals category=object.category %}">Back to listing</a>
+</div>
+{% endblock %}

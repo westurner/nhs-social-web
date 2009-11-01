@@ -1,0 +1,7 @@
+queue:
+- name: default
+  rate: 1/s
+- name: animal-indexes
+  rate: 20/h
+- name: animal-profiles
+  rate: 2/m

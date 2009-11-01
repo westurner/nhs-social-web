@@ -1,0 +1,4 @@
+cron:
+- description: daily
+  url: /adopt/_tasks_/enqueue_categories
+  schedule: every 12 hours
