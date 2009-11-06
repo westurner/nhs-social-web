@@ -8,13 +8,13 @@ from google.appengine.ext import db
 from google.appengine.api.labs import taskqueue
 from google.appengine.api.labs.taskqueue import Task, Queue
 from google.appengine.api.urlfetch import Fetch
-from nebhs.models import Animal
-from gaegene.image.models import GeneImage
+from nebhs.models import Animal, AnimalPhoto
 from ragendja.template import TextResponse
 
 import html5lib
 from BeautifulSoup import BeautifulSoup as BS
 from html5lib import sanitizer, treebuilders
+from settings import DEBUG
 
 import logging
 
@@ -43,6 +43,17 @@ def parse_time_phrase(s):
         return n
     elif unit.startswith("month"):
         return n / 12.0
+
+def fetch(url, headers={},**kwargs):
+    deadline=kwargs.get('deadline',10)
+    headers.update({
+        'User-Agent':'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.14) Gecko/2009090216 Ubuntu/9.04 (jaunty) Firefox/3.0.14'
+    })
+    page = Fetch(url, headers, deadline=deadline, **kwargs)
+    if DEBUG:
+        # store the page
+        logging.debug(page.content)
+    return page
 
 def parse_petharbor_age(s):
     """
@@ -77,14 +88,23 @@ def parse_cond_parens(s,reverse=False):
         return '', s
     return s, ''
 
+# TODO: wtf
 def parse_desc_age(s):
-    s = s.strip()
-    sp = s.split('Shelter staff think')
+    """
+    Return (description, age)
+    """
+    s = s.strip().lower()
+    sp = s.split('shelter staff think')
     if len(sp) == 2:
-        return sp[0],"Shelter staff think%s" % sp[1]
-    sp = s.split("This animal's age is unknown")
+        age = sp[1].split('is about')[1].split('.')[0]
+        return sp[0], float(parse_petharbor_age(age.strip()))
+        #"Shelter staff think%s" % sp[1]
+
+    sp = s.split("this animal's age is unknown")
     if len(sp) == 2:
         return sp[0], None
+
+    raise Exception
 
 def capitalize_first(s):
     return ' '.join(map(lambda x: x.capitalize(), s.split(' ')))
@@ -94,7 +114,8 @@ def parse_petharbor_table(content,category=None, batch_id=None):
     # cleanup html
     bs = BS(content)
 
-    parser = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer,tree=treebuilders.getTreeBuilder("beautifulsoup"))
+    parser = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer,
+        tree=treebuilders.getTreeBuilder("beautifulsoup"))
 
     # build parse tree
     tree = parser.parse(bs.encode())
@@ -107,13 +128,10 @@ def parse_petharbor_table(content,category=None, batch_id=None):
     for row in results.findAll('tr')[1:]:
         columns = row.findAll('td')
         cells = map(lambda x:x.encodeContents(), columns)
-   
         # Split Name and ID
         name, code = parse_cond_parens(cells[1], reverse=True)
-
         # Split gender and spayed_or_neutered
         gender,spayed_or_neutered = parse_cond_parens(cells[2])
-
         ret.append(
             {'petharbor_url': "http://petharbor.com/%s" % columns[0].find('a')['href'],
              'petharbor_img_thumb_url': columns[0].find('img')['src'],
@@ -123,7 +141,7 @@ def parse_petharbor_table(content,category=None, batch_id=None):
              'spayed_or_neutered':spayed_or_neutered,
              'main_color':cells[3],
              'breed':cells[4],
-             'age':parse_petharbor_age(cells[5]), # TODO: parse
+             'age':parse_petharbor_age(cells[5]),
              'brought_to_shelter':cells[6],
              'located_at':cells[7],
              'category':category,
@@ -134,7 +152,9 @@ def parse_petharbor_table(content,category=None, batch_id=None):
 
 def parse_petharbor_profile(contents):
     code, desc_age = contents.split('ID#')[1].split('Thank you for')[0].split('<BR><BR></font>')
-    desc, age = parse_desc_age(desc_age.split('<BR>',1)[0])
+    logging.debug("desc_age: '%s'" % desc_age)
+    desc, age = parse_desc_age(desc_age.strip('<BR>'))
+    logging.debug("desc, age: '%s','%s'" % (desc,age))
     petharbor_last_updated = contents.split('old and may not represent')[0].split('This information is ')[1].strip()
     petharbor_img_url = "http://petharbor.com/get_image.asp%s" % contents.split('get_image.asp')[1].split('"')[0]
     return {'code':code,
@@ -154,7 +174,7 @@ def task_enqueue_categories(request):
         taskqueue.add(Task(url='/adopt/_tasks_/fetch_category',method='post',payload=json.dumps({'category':category, 'url':_getpetharbor_url(x)})))
     else:
         for x in PETHARBOR_URLS.keys():
-            q.add(Task(url='/adopt/_tasks_/fetch_category',name="fetch-%s" % (x), method='post',payload=str(json.dumps({'category':x,'url':_get_petharbor_url(x)}))))
+            q.add(Task(url='/adopt/_tasks_/fetch_category',name="fetch-%s-%s" % (x, datetime.datetime.now().strftime('%Y%m%d%H%M%S')), method='post',payload=str(json.dumps({'category':x,'url':_get_petharbor_url(x)}))))
     return TextResponse('OK')
 
 def task_fetch_category(request):
@@ -170,7 +190,7 @@ def _task_fetch_category(url,category):
     Fetch an animal table, parse out information, and enqueue a task to fetch the image and store the data in the database
     """
     q = Queue('animal-profiles')
-    page = Fetch(url, headers={'User-Agent':'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.14) Gecko/2009090216 Ubuntu/9.04 (jaunty) Firefox/3.0.14'},deadline=10)
+    page = fetch(url)
     animals = parse_petharbor_table(page.content,category)
     for animal in animals:
         q.add(Task(url='/adopt/_tasks_/fetch_animal',name="fetch-%s-%s" % (category, animal['code']), method="post",payload=str(json.dumps(animal))))
@@ -190,32 +210,34 @@ def _task_fetch_profile(animal):
     """
     Fetch an animal image
     """
-    page = Fetch(animal['petharbor_url'], headers={'User-Agent':'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.14) Gecko/2009090216 Ubuntu/9.04 (jaunty) Firefox/3.0.14'},deadline=10)
-    animal.update(parse_petharbor_profile(page.content))
-    img = Fetch(animal['petharbor_img_url'], headers={'User-Agent':'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.14) Gecko/2009090216 Ubuntu/9.04 (jaunty) Firefox/3.0.14'},deadline=10)
+    page = fetch(animal['petharbor_url'])
+    profile = parse_petharbor_profile(page.content)
+    animal.update(profile)
+    img = Fetch(animal['petharbor_img_url'])
 
     logging.debug(animal)
 
-    # fetch recor
+    # fetch record
     record = db.Query(Animal).filter('code =',animal['code']).filter('brought_to_shelter =', animal['brought_to_shelter']).filter('category =',animal['category']).get()
     # TODO: assuming animal id is actually unique
     #record = Animal.get_or_insert(animal['code'],image=], image_bytes=img.content), **data)
 
     # If no record exists
     if not record:
-        photo=GeneImage.create(animal['petharbor_img_url'], image_bytes=img.content)
+        photo=AnimalPhoto.create(animal['petharbor_img_url'], image_bytes=img.content)
+        logging.debug("%s: %s" % (type(photo), photo.__class__))
         photo.put()
         record = Animal(photo=photo, status='adoptable', **animal)
         record.put()
     # If there's an existing record
-    elif record.image_bytes[:1000] != img[:1000]:
-        record.image=GeneImage.create(animal['petharbor_img_url'],image_bytes=img.content)
+    elif record.photo.image_bytes[:1000] != img.content[:1000]:
+        record.image=AnimalPhoto.create(animal['petharbor_img_url'],image_bytes=img.content)
         record.status='adoptable'
         record.put()
 
 #    # TODO: real hash
 #    if record.image_bytes[:1000] != img[:1000]:
-#        image = GeneImage.create(animal['petharbor_img_url'], image_bytes=img.content)
+#        image = AnimalPhoto.create(animal['petharbor_img_url'], image_bytes=img.content)
 #        record.image = image
 #        image.put()
 #        record.put()

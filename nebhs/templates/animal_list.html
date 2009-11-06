@@ -1,31 +1,36 @@
 {% extends 'base.html' %}
 {% block title %}Adoptable {{ page_title }}{% endblock %}
-
+{% block body-class %}{{ category }}{% endblock %}
 {% block content %}
-<div class="grid_16">
-<h1>{{ page_title }}</h1>
 
+<div class="grid_10 prefix_3">
+<h1><a href="{% url nebhs.views.list_animals category=category %}">{{ page_title }}</a></h1>
+</div>
+<div class="clear"></div>
 {% if object_list %}
+
 <ul class="animal_list">
   {% for object in object_list %}
-    <li>
+    <div class="animal_mini">
         {% include "animal_include_mini.html" %}
-    </li>
+    </div>
   {% endfor %}
 </ul>
+
 {% else %}
+<div class="grid_10 prefix_3"
     <p class="none_found">We currently don't have any {{ page_title|lower }}. Check back soon!</p>
+</div>
 {% endif %}
 
-
-<div>
+<div class="clear"></div>
+<div class="pagers" style="font-size: 2.0em">
   {% if has_previous %}
-    <a href="{% url nebhs.views.list_animals %}?page={{ previous }}">&lt;-previous</a>
+    <a href="{% url nebhs.views.list_animals category=category %}?page={{ previous }}">&lt;-previous</a>
   {% endif %}
   {% if has_next %}
-    <a href="{% url nebhs.views.list_animals %}?page={{ next }}">next-&gt;</a>
+    <a href="{% url nebhs.views.list_animals category=category %}?page={{ next }}">next-&gt;</a>
   {% endif %}
 </div>
 
-</div>
 {% endblock %}

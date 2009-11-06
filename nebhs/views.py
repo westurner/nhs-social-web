@@ -28,7 +28,7 @@ def _animal_page_title(a):
 def list_animals(request, category):
     if category not in ANIMAL_CATEGORIES.keys():
         raise Exception
-    return object_list(request, db.Query(Animal).filter('category =',category).filter('status =','adoptable').order('-brought_to_shelter'), paginate_by=15, extra_context={'page_title':ANIMAL_CATEGORIES[category]})
+    return object_list(request, db.Query(Animal).filter('category =',category).filter('status =','adoptable').order('-brought_to_shelter'), paginate_by=15, extra_context={'page_title':ANIMAL_CATEGORIES[category],'category':category})
 
 def show_animal_by_id(request, category, id):
     a = animal = get_object_or_404(Animal, 'category =', category, 'code = ', id) # todo: also check date

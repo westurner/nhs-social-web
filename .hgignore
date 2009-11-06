@@ -6,3 +6,5 @@ syntax:glob
 ipython_log.py
 nbproject
 *~
+_generated_media
+.dynamic_media

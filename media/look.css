@@ -15,24 +15,53 @@ body {
 #footer {
   clear: both;
 } */
-html {
-    background: url(logo_hand_lightgray.488x600.png) right no-repeat;
+body {
 
+    background: url(logo_hand_lightgray.488x600.png) bottom left no-repeat;
+    background-attachment:fixed;
+    height: 100%;
 }
 
-ul.animal_details, ul.animal_list { list-style-type: none }
-ul.animal_details li, ul.animal_list li { margin-left: 0; }
 
-div.animal_photo, #disqus_thread { background: #E5ECF9;border: #D7E5ED; width: 100% }
 
-div.animal_photo {
-border: #d7d7d7;
-padding: 4em 1em 1em 1em;
-margin-top:3em""
-}
 
-#disqus_thread {
-padding:1em;
-}
+a.adopta, a.adopta:hover { text-decoration: none; cursor: default; font-size: 1.2em; }
 
-h2.help_me { margin-bottom: 0; text-align: center; }
+.animal_details h1 { font-size: 40px; margin-bottom:5px;}
+.animal_details ul, ul.animal_list { list-style-type: none }
+.animal_details ul li, ul.animal_list li { margin-left: 0; }
+.animal_details ul li { font-size: 1.3em; }
+
+div.animal_photo, #disqus_thread { background: #E5ECF9;border: #D7E5ED; border: 1px solid #c5cce9;}
+
+div.animal_photo { padding: 2em; }
+
+div.animal_photo img { margin: 0 auto; display:block; }
+
+
+/*div.animal_mini */
+
+
+div.animal_desc_mini a { font-weight: bold; font-size: 1.4em;  }
+
+#disqus_thread { padding:1em; }
+
+div.help h2 { margin:30px 0; text-align: center; }
+
+
+a,a:visited { text-decoration: none; color: #4040B0; }
+a:hover { text-decoration: underline }
+
+#menu a.adopta:hover { color: #4040B0; }
+#menu a, #menu a:visited {
+    font-size: 2em;
+    padding-right: 8px; color: #ccc; font-weight: bold; }
+#menu a:hover  { color: #e8c42d; }
+ body.dogs #menu a.dogs, body.cats #menu a.cats, body.other #menu a.other { color: #e8c42d; }
+
+#content h1 { color: #4040B0; }
+
+#footer { opacity: 0.2; text-align:right; }
+#footer:hover { opacity: 0.5 }
+
+div.animal_mini { clear:both; }

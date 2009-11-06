@@ -2,7 +2,6 @@
 from django.conf.urls.defaults import *
 from ragendja.urlsauto import urlpatterns
 from ragendja.auth.urls import urlpatterns as auth_patterns
-from nebhs.urls import urlpatterns as nebhs_patterns
 from django.contrib import admin
 
 admin.autodiscover()

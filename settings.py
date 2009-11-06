@@ -25,11 +25,11 @@ COMBINE_MEDIA = {
 
 # Change your email settings
 if on_production_server:
-    DEFAULT_FROM_EMAIL = 'bla@bla.com'
+    DEFAULT_FROM_EMAIL = 'noreply@wrd.nu'
     SERVER_EMAIL = DEFAULT_FROM_EMAIL
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '000012x2300:31---0234--234e3,234'
+SECRET_KEY = '00ccl12x2300:31---0234--2we4e3,234'
 
 #ENABLE_PROFILER = True
 #ONLY_FORCED_PROFILE = True
@@ -44,7 +44,6 @@ LANGUAGE_CODE = 'en'
 
 # Restrict supported languages (and JS media generation)
 LANGUAGES = (
-    ('de', 'German'),
     ('en', 'English'),
 )
 
@@ -137,7 +136,7 @@ DATABASE_OPTIONS = {
 }
 
 
-DEBUG = True
+DEBUG = False
 INTERNAL_IPS = [
 '127.0.0.1',
 ]
