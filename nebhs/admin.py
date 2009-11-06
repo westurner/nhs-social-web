@@ -1,5 +1,5 @@
 from django.contrib import admin
-from nebhs.models import Animal
+from nebhs.models import Animal, AnimalPhoto
 from gaegene.image.models import GeneImage
 
 #class FileInline(admin.TabularInline):
@@ -7,7 +7,7 @@ from gaegene.image.models import GeneImage
 
 class PhotoAdmin(admin.ModelAdmin):
     list_display = ('image_url',)
-admin.site.register(GeneImage, PhotoAdmin)
+admin.site.register(AnimalPhoto, PhotoAdmin)
 
 
 class AnimalAdmin(admin.ModelAdmin):

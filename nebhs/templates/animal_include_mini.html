@@ -1,6 +1,15 @@
-<a href="{{ object.get_absolute_url }}"><h3>{{ object.name|capfirst }} the {{ object.breed }}</h3></a>
 
-<p>{{ object.gender }} ({{ object.spayed_or_neutered }})
-{{ object.main_color }} {{ object.breed }}. 
-{{ object.gender_str|capfirst }}'s {{ object.age_str }} old and was brought to the shelter on {{ object.brought_to_shelter|date:"F jS, Y" }}</p>
-<p class="description">{{ object.description }}</p>
+
+
+<div class="grid_3 prefix_3">
+    <a rel="permalink" href="{{ object.get_absolute_url }}">
+    <img src="{% url image_serve_scaled image_key=object.photo.key extension='png' width=150 height=150 %}" style="width:150px; padding-right:15px; padding-top: 5px"/>
+    </a>
+</div>
+<div class="grid_7 animal_desc_mini">
+<a rel="permalink" href="{{ object.get_absolute_url }}">{{ object.name|capfirst }} the {{ object.breed }}</a>
+
+<p>Breed: <strong>{{ object.breed }}</strong>  Main Color: <strong> {{ object.main_color }}</strong> .
+{{ object.gender_str|capfirst }}{% if object.age %}'s <strong>{{ object.age_str }} young</strong> and{% endif %} was brought to the shelter on {{ object.brought_to_shelter|date:"F jS, Y" }}</p>
+{#{% if object.description %}<p class="description pullquote">{{ object.description }}</p>{% endif %}#}
+</div>
