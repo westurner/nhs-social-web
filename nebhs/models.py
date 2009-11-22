@@ -110,6 +110,9 @@ class Animal(db.Model):
     last_checked = db.DateTimeProperty()    
     petharbor_url = db.LinkProperty()    
 
+    youtube_video_url = db.LinkProperty()
+    meet_your_match = db.StringProperty()
+
     def __str__(self):
         return '[%s] %s' % (self.code,self.name)
 
