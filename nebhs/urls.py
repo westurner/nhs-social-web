@@ -3,10 +3,16 @@ from django.conf.urls.defaults import *
 
 urlpatterns = patterns('nebhs.views',
     (r'^create_admin_user/$', 'create_admin_user'),
-    (r'^photos/', include('gaegene.image.urls')),
+    url(r'^photos/(?P<image_key>.*)-(?P<width>.*)x(?P<height>.*)\.(?P<extension>.*)$',
+        'serve_image',
+        name='image_serve_scaled'),
+    url(r'^photos/(?P<image_key>.*)\.(?P<extension>.*)$',
+        'serve_image',
+        name='image_serve'
+    ),
     (r'^(?P<category>[dogs|cats|other]+)/$', 'list_animals'),
     (r'^(?P<category>[dogs|cats|other]+)/(?P<id>A\d+)$','show_animal_by_id'),
-    (r'^(?P<category>[dogs|cats|other]+)/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/(?P<name>\w+)$','show_animal_by_name'),
+    (r'^(?P<category>[dogs|cats|other]+)/(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/(?P<name>[\w\+-]+)$','show_animal_by_name'),
     #(r'^create/$', 'add_animal'),
     #(r'^show/(?P<key>.+)$', 'show_animal'),
     #(r'^edit/(?P<key>.+)$', 'edit_animal'),
