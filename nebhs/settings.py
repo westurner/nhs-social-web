@@ -4,7 +4,7 @@ settings.add_app_media('combined-%(LANGUAGE_CODE)s.js',
     'nebhs/jcarousel/lib/thickbox/thickbox.js',
     'nebhs/corner/jquery.corner.src.js',
     'nebhs/jquery.jquote.3.js',
-    'nebhs/jquery.metadata.2.0/jquery.metadata.js',
+    'nebhs/jquery.metadata.js',
     'nebhs/jquery.defaultvalue.source.js'
 )
 

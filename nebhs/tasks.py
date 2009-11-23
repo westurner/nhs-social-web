@@ -14,6 +14,7 @@ from ragendja.template import TextResponse
 import html5lib
 from BeautifulSoup import BeautifulSoup as BS
 from html5lib import sanitizer, treebuilders
+import datetime
 
 try:
     from settings import DEBUG
@@ -27,6 +28,8 @@ PETHARBOR_URLS = {
 'cats': """http://petharbor.com/results.asp?searchtype=ADOPT&stylesheet=include/default.css&frontdoor=1&friends=1&samaritans=1&nosuccess=0&rows=500&imght=120&imgres=thumb&view=sysadm.v_animal&fontface=arial&fontsize=10&zip=68101&miles=200&shelterlist=%27NEHS%27&atype=cat&ADDR=undefined&nav=1&start=4&nomax=1&page=1&where=type_CAT""",
 'other':"""http://petharbor.com/results.asp?searchtype=ADOPT&stylesheet=include/default.css&frontdoor=1&friends=1&samaritans=1&nosuccess=0&rows=500&imght=120&imgres=thumb&view=sysadm.v_animal&fontface=arial&fontsize=10&zip=68101&miles=200&shelterlist=%27NEHS%27&atype=other&ADDR=undefined&nav=1&start=4&nomax=1&page=1&where=type_OO"""}
 
+class ExpiredException(Exception):
+    pass
 
 RATE_LIMIT_MSG="""We are very sorry, but due to high usage we were unable to process your request. Please wait a few moments and try again."""
 
@@ -149,13 +152,29 @@ def parse_petharbor_table(content,category=None, batch_id=None):
              'brought_to_shelter':cells[6],
              'located_at':cells[7],
              'category':category,
-             'batch_id':batch_id
+             'batch_id':batch_id,
+             'last_checked':datetime.datetime.now().strftime('%Y%m%d%H%M%S')
              })
 
     return ret
 
+def expired_condition_one(contents):
+    if contents.endswith('''Sorry!  This animal is no longer in our online database.  Please check with the shelter to see about its availability.'''):
+        logging.debug("Expired.")
+        return {'status':'expired',
+                'last_checked':datetime.datetime.now().strftime('%Y%m%d%H%M%S')}
+    else:
+        return None
+
 def parse_petharbor_profile(contents):
-    code, desc_age = contents.split('ID#')[1].split('Thank you for')[0].split('<BR><BR></font>')
+    b = expired_condition_one(contents)
+    if b: return b
+    after_id = contents.split('ID#')[1]
+    try:
+        before_thank_you = after_id.split('Thank you for')[0]
+    except:
+        before_thanks_you = after_id.split('If you have lost a pet')
+    code, desc_age = before_thank_you.split('<BR><BR></font>')
     logging.debug("desc_age: '%s'" % desc_age)
     desc, age = parse_desc_age(desc_age.strip('<BR>'))
     logging.debug("desc, age: '%s','%s'" % (desc,age))
@@ -165,7 +184,9 @@ def parse_petharbor_profile(contents):
             'description':desc.strip(),
             'age':age,
             'perharbor_last_updated':petharbor_last_updated,
-            'petharbor_img_url':petharbor_img_url}
+            'petharbor_img_url':petharbor_img_url,
+            'status':'adoptable',
+            'last_checked':datetime.datetime.now().strftime('%Y%m%d%H%M%S')}
 
 
 def task_enqueue_categories(request):
@@ -197,7 +218,8 @@ def _task_fetch_category(url,category):
     page = fetch(url)
     animals = parse_petharbor_table(page.content,category)
     for animal in animals:
-        q.add(Task(url='/adopt/_tasks_/fetch_animal',name="fetch-%s-%s" % (category, animal['code']), method="post",payload=str(json.dumps(animal))))
+        animal['src_url'] = url
+        q.add(Task(url='/adopt/_tasks_/fetch_animal',name="fetch-%s-%s-%s" % (category, animal['code'], datetime.datetime.now().strftime('%Y%m%d%H%M')), method="post",payload=str(json.dumps(animal))))
         #print to_json(x,indent=4)
 
 
@@ -215,36 +237,67 @@ def _task_fetch_profile(animal):
     Fetch an animal image
     """
     page = fetch(animal['petharbor_url'])
-    profile = parse_petharbor_profile(page.content)
-    animal.update(profile)
-    img = Fetch(animal['petharbor_img_url'])
+    try:
+        profile = parse_petharbor_profile(page.content)
+    except Exception, e:
+        logging.error("Failed on URL: %s" % animal['petharbor_url'])
+        logging.error("URL was found on: %s" % animal.get('src_url','unknown'))
+        if DEBUG:
+            import md5
+            fn = '/tmp/fail/%s.html' % md5.md5(animal['petharbor_url']).hexdigest()
+            f = file(fn,'w+')
+            f.write('<--- %s --->' % animal['petharbor_url'])
+            f.write(page.content)
+            f.close()
+            logging.error("Wrote file to %s" % fn)
+        raise
 
-    logging.debug(animal)
+    animal.update(profile)
+    animal['last_checked'] = datetime.datetime.strptime(animal['last_checked'], '%Y%m%d%H%M%S')
 
     # fetch record
     record = db.Query(Animal).filter('code =',animal['code']).filter('brought_to_shelter =', animal['brought_to_shelter']).filter('category =',animal['category']).get()
     # TODO: assuming animal id is actually unique
     #record = Animal.get_or_insert(animal['code'],image=], image_bytes=img.content), **data)
 
+    if animal['status'] == 'expired':
+        logging.debug("Marking record as expired.")
+        record.status = 'expired'
+        record.last_checked = animal['last_checked']
+        record.save()
+        return
+
+    try:
+        img = Fetch(animal['petharbor_img_url'])
+    except KeyError:
+        img = None
+        pass
+
     # If no record exists
     if not record:
-        photo=AnimalPhoto.create(animal['petharbor_img_url'], image_bytes=img.content)
-        logging.debug("%s: %s" % (type(photo), photo.__class__))
-        photo.put()
-        record = Animal(photo=photo, status='adoptable', **animal)
+        if img and not is_no_image_available(img.content):
+            photo=AnimalPhoto.create(animal['petharbor_img_url'], image_bytes=img.content)
+            logging.debug("%s: %s" % (type(photo), photo.__class__))
+            photo.put()
+            img=photo
+        record = Animal(photo=img, **animal)
         record.put()
     # If there's an existing record
-    elif record.photo.image_bytes[:1000] != img.content[:1000]:
-        record.image=AnimalPhoto.create(animal['petharbor_img_url'],image_bytes=img.content)
-        record.status='adoptable'
-        record.put()
+    else:
+        # Update with latest information
+        for k in record.properties().keys():
+            print k
+            if animal.has_key(k) and getattr(record,k) != animal[k]:
+                print "Seting attr(%s) to (%s)" % (k,animal[k])
+                setattr(record, k, animal[k])
 
-#    # TODO: real hash
-#    if record.image_bytes[:1000] != img[:1000]:
-#        image = AnimalPhoto.create(animal['petharbor_img_url'], image_bytes=img.content)
-#        record.image = image
-#        image.put()
-#        record.put()
+        record.last_checked = datetime.datetime.now()
+        
+        if img and record.photo and record.photo.image_bytes[:1000] != img.content[:1000]:
+            # Update the photo
+            record.image=AnimalPhoto.create(animal['petharbor_img_url'],image_bytes=img.content)
+
+        record.save()
 
 import unittest
 class TestDogsTask(unittest.TestCase):
@@ -275,7 +328,34 @@ class TestDogsTask(unittest.TestCase):
         content = _load_html('/home/wturner/projects/mis/whatismis/nebhs/tests/a672988.html')
         res = parse_petharbor_profile(content)
         print _to_json(res)
-        
+
+def purge_expired(self):
+    for a in Animal.all():
+        if not a.last_checked or a.last_checked <= (datetime.datetime.now()-datetime.timedelta(5)):
+            print "Last checked is older than 5 days. checking: %s" % a.code
+            try:
+                _task_fetch_profile(a.__dict__['_entity'])
+            except Exception,e:
+                logging.error(str(e))
+                raise
+                pass
+
+def delete_no_image_available_pictures():
+    for a in Animal.all():
+        print "Checking %s" % a.code
+        if a.photo and is_no_image_available(a.photo.image_bytes):
+            print "Removing failed photo from %s" % a.code
+            a.photo = None
+            a.save()
+
+import md5
+def is_no_image_available(bytes):
+    """
+    Return whether this image matches the checksum for the
+    "No image is currently available for this animal" image.
+    """
+    if md5.md5(bytes).hexdigest() == 'e8a35b143eb83c04006d235de03a1c90':
+        return True
 
 if __name__ == '__main__':
     #print fetch_dogs_table()

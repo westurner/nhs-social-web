@@ -5,6 +5,7 @@ from google.appengine.ext import db
 from google.appengine.api import images, urlfetch
 import logging
 from gaegene.image.models import *
+import urllib
 
 ANIMAL_CATEGORIES = {'cats':'Cats and Kittens', 'dogs':'Dogs and Puppies','other':'Other Animals'}
 
@@ -99,17 +100,14 @@ class Animal(db.Model):
     brought_to_shelter = db.DateProperty(required=True)
     #created = db.DateTimeProperty()
     #modified = db.DateTimeProperty()
-    
+    featured = db.BooleanProperty()
     status = db.StringProperty() #choices = set(['adoptable','expired'])
     located_at = db.StringProperty()
     description = db.TextProperty()
-
     category = db.StringProperty() #Category(choices = set(["cat","dog","oo"])) #
     photo = db.ReferenceProperty(AnimalPhoto) #BlobProperty()
-
     last_checked = db.DateTimeProperty()    
     petharbor_url = db.LinkProperty()    
-
     youtube_video_url = db.LinkProperty()
     meet_your_match = db.StringProperty()
 
@@ -119,7 +117,7 @@ class Animal(db.Model):
     @permalink
     def get_absolute_url(self):
         return ('nebhs.views.show_animal_by_name', (), {'category':self.category,
-            'name':self.name,
+            'name':urllib.quote_plus(self.name),
             'year':self.brought_to_shelter.year,
             'month':self.brought_to_shelter.month,
             'day':self.brought_to_shelter.day})

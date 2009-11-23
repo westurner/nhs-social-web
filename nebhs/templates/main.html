@@ -62,7 +62,7 @@
 
     /// Load adoptable pets
     $(function() {
-        $.getJSON("http://localhost:8000/adopt/api/animals/json/?&callback=?",
+        $.getJSON("/adopt/api/animals/json/?&callback=?",
         function(data){
             $.each(data, function(i,item){
                 $("#adoptable_tmpl").jqote(item).appendTo("#adoptable_carousel");

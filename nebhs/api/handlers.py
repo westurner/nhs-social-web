@@ -4,6 +4,21 @@ from google.appengine.ext import db
 from nebhs.models import Animal, AnimalPhoto
 from django.core.urlresolvers import reverse
 from nebhs import settings
+from gae_memoize.memoize import memoize,default_keygen
+
+import logging
+
+def query_keygen(*args,**kwargs):
+    kwargs.update(dict(args[1]))
+    return default_keygen(**kwargs)
+
+@memoize(3600,keygen=query_keygen)
+def api_query(cls, params,limit=70):
+    b = db.Query(cls)
+    for k,v in params:
+        if v:
+            b = b.filter(k,v)
+    return b.fetch(limit)
 
 class AnimalHandler(BaseHandler):
     """
@@ -38,24 +53,13 @@ class AnimalHandler(BaseHandler):
         Parameters:
          - `title`: The title of the post to retrieve.
         """
-        base = db.Query(Animal)
-
-        if status or request.GET.get('status'):
-            base = base.filter('status =',status or request.GET.get('status'))
-
-        if category or request.GET.get('category'):
-            base = base.filter('category =',category or request.GET.get('category'))
-
-        if code or request.GET.get('code'):
-            base = base.filter('code =',code or request.GET.get('code'))
-
-        if meet_your_match or request.GET.get('meet_your_match'):
-            # TODO: assign numeric constants to meet your match scale
-            base = base.filter('meet_your_match =',meet_your_match or request.GET.get('meet_your_match'))
-
-        return base.fetch(70)
-
-
+        filter_set = [
+            ('status =',status or request.GET.get('status')),
+            ('category =',category or request.GET.get('category')),
+            ('code =',code or request.GET.get('code')),
+            ('meet_your_match =', meet_your_match or request.GET.get('meet_your_match'))
+        ]
+        return api_query(Animal,filter_set,70)
 
 class AnonymousAnimalHandler(AnimalHandler, AnonymousBaseHandler):
     """
