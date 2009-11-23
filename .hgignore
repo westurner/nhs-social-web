@@ -17,7 +17,8 @@ nebhs/media/corner/dev
 nebhs/media/corner/changelog.txt
 nebhs/media/jcarousel/examples
 nebhs/media/jcarousel/images
-nebhs/media/jcarousel/skins
+nebhs/media/jcarousel/skins/ie7
+nebhs/media/jcarousel/skins/tango
 nebhs/media/jcarousel/changelog.html
 nebhs/media/jcarousel/index.html
 nebhs/media/jcarousel/style.css

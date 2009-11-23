@@ -97,6 +97,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.admin',
     'django.contrib.webdesign',
+    'django.contrib.markup',
     'django.contrib.flatpages',
     'django.contrib.redirects',
     'django.contrib.sites',
@@ -104,6 +105,7 @@ INSTALLED_APPS = (
     'ragendja',
     'registration',
     'mediautils',
+    'piston',
     'nebhs',
 )
 

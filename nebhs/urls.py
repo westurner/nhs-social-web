@@ -2,7 +2,7 @@
 from django.conf.urls.defaults import *
 
 urlpatterns = patterns('nebhs.views',
-    (r'^create_admin_user$', 'create_admin_user'),
+    (r'^create_admin_user/$', 'create_admin_user'),
     (r'^photos/', include('gaegene.image.urls')),
     (r'^(?P<category>[dogs|cats|other]+)/$', 'list_animals'),
     (r'^(?P<category>[dogs|cats|other]+)/(?P<id>A\d+)$','show_animal_by_id'),
