@@ -19,7 +19,12 @@
         {% block js %}
         <script type="text/javascript" src="{{ MEDIA_URL }}combined-{{ LANGUAGE_CODE }}.js"></script>
         {% endblock %}
-
+        <script type="text/javascript">
+            $(document).ready(function() {
+                $('.clearonfocus').defaultValue()
+            });
+            
+        </script>
         {% block extra-head %}{% endblock %}
     </head>
 
@@ -38,7 +43,7 @@
                     <a href="#login">Login</a>
                     <div id="searchform" style="margin-top:2em">
                         <form id="search" action="POST" action="#search">
-                            <input id="search_form" name="query" style="width:160px"></input>
+                            <input id="search_form" class="clearonfocus {initial:'Search...'}" name="query" style="width:160px"></input>
                         </form>
                     </div>
                 </div>
