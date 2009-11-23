@@ -57,7 +57,7 @@ a:hover { text-decoration: underline }
     font-size: 2em;
     padding-right: 8px; color: #ccc; font-weight: bold; }
 #menu a:hover  { color: #e8c42d; }
- body.dogs #menu a.dogs, body.cats #menu a.cats, body.other #menu a.other { color: #e8c42d; }
+body.dogs #menu a.dogs, body.cats #menu a.cats, body.other #menu a.other { color: #e8c42d; }
 
 #content h1 { color: #381d7a; }
 
@@ -73,8 +73,8 @@ div.lbox {
 }
 
 div.home_row_1 div.carousel_content, div.home_row_1 div.carousel_desc {
-     height:370px;
-     margin: 20px 0;
+    height:520px;
+    margin: 20px 0;
 }
 
 div.home_row_2 { margin: 20px 0; }
@@ -84,3 +84,39 @@ div.home_row_2 h1 { /* background: #e6e6e6; */ border-bottom: 2px solid #a000a0;
 
 #footer { text-align: center; }
 #footer a { border-right: 1px solid #aaa; padding: 0 5px; }
+
+#main_carousel li img {
+    width:696px; height:520px; z-index: 1;
+    position:relative;
+    top:0;
+    left:0;
+}
+
+#main_carousel div.carousel_item {
+    width:696px;
+    height:520px;
+    overflow:hidden;
+}
+
+#main_carousel div.caption {
+    width: 614px;
+    color:white; position:relative; bottom:90px; z-index:3; height:90px;
+    left: 0;
+    margin: 0 40px;
+}
+
+#main_carousel div.caption h1, #main_carousel div.caption p { color: white; padding-top:0; margin-bottom:1px; text-align:left; }
+
+#main_carousel div.caption_bkg {
+    width:696px;
+    color:white; position:absolute; bottom:0px; z-index:2; height:90px; background:#000;
+    opacity:0.5;
+    -moz-opacity:0.5;
+    filter:alpha(opacity=0.5);
+}
+
+
+div.carousel_desc img { margin: 1em; }
+#donate-mini { margin: 1em; }
+#donate-mini input[type="submit"] { height: 28px; }
+#donate-amount { width: 3em; font-size:1.4em; text-align:right; padding: 0 4px }

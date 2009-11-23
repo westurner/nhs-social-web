@@ -12,6 +12,7 @@ urlpatterns = auth_patterns + patterns('',
     ('^admin/(.*)', admin.site.root),
     (r'^$', 'django.views.generic.simple.direct_to_template',
         {'template': 'nebhs/main.html'}),
-    (r'^adopt/',  include('nebhs.urls'))
+    (r'^adopt/',  include('nebhs.urls')),
+    (r'^adopt/api/',  include('nebhs.api.urls'))
     # Override the default registration form
 ) + urlpatterns

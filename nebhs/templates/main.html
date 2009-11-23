@@ -1,9 +1,70 @@
 {% extends "base.html" %}
 {% block extra-head %}
+<script type="text/html" id="adoptable_tmpl">
+    /// TODO: prepend server url to img_uri
+        <![CDATA[
+                <li>
+                <div class="adoptable">
+                <img src="<%= this.img_uri %>" alt="<%= this.name %>"></img>
+                <p class="adoptable_name"><%= this.name %></p>
+                </div>
+                </li>
+            ]]>
+</script>
 <script type="text/javascript">
-$(function() {
-			$("div.rounded").corner("10px");
-		});
+    /// TODO: Graceful fallback
+    /// Add rounded corners
+    
+    $(function() {
+        $("div.rounded").corner("10px");
+    });
+
+
+    /// Setup carousel
+    function maincarousel_initCallback(carousel)
+    {
+        // Disable autoscrolling if the user clicks the prev or next button.
+        carousel.buttonNext.bind('click', function() {
+            carousel.startAuto(0);
+        });
+
+        carousel.buttonPrev.bind('click', function() {
+            carousel.startAuto(0);
+        });
+
+        // Pause autoscrolling if the user moves with the cursor over the clip.
+        carousel.clip.hover(function() {
+            carousel.stopAuto();
+        }, function() {
+            carousel.startAuto();
+        });
+    };
+
+
+    $(function() {
+        // Add the transparent caption background
+        $('div.carousel_item').append($('<div class="caption_bkg">&nbsp;</div>'));
+        $('#main_carousel').jcarousel({
+            auto: 5,
+            wrap: 'last',
+            initCallback: maincarousel_initCallback
+        });
+    });
+
+
+    /// Load adoptable pets
+    $(function() {
+        $.getJSON("http://localhost:8000/adopt/api/animals/json/?&callback=?",
+        function(data){
+            $.each(data, function(i,item){
+                $("#adoptable_tmpl").jqote(item).appendTo("#adoptable_carousel");
+            });
+            /// TODO: Error handling/Graceful fallback
+            $('#adoptable_carousel').jcarousel();
+        });
+        
+        
+    });
 </script>
 
 {% endblock extra-head %}
@@ -11,13 +72,58 @@ $(function() {
 
 <div class="home_row_1">
     <div class="grid_12">
-        <div class="carousel_content lbox rounded">
-            &nbsp;
+        <div class="carousel_content">
+            <ul id="main_carousel" class="jcarousel-skin-nhs-main">
+                <!-- TODO: Graceful fallback -->
+                <li>
+                    <a href="#story-1">
+                        <div class="carousel_item">
+                            <img src="{{ MEDIA_URL}}nebhs/christmas-cat-wallpaper.jpg"></img>
+                            <div class="caption">
+                                <h1>Holiday Open House</h1>
+                                <p>Dec. 5th, 2009 9am-1pm</p>
+                                <p>Pointsettias, Wreaths, Garland
+                                    and Pictures for Pets</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#story-2">
+                        <div class="carousel_item">
+                            <img src="{{ MEDIA_URL}}nebhs/christmas-cat-wallpaper.jpg"></img>
+                            <div class="caption">
+                                <h1>Holiday Open House</h1>
+                                <p>Dec. 5th, 2009 9am-1pm</p>
+                                <p>Pointsettias, Wreaths, Garland
+                                    and Pictures for Pets</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+                <li>
+                    <a href="#story-3">
+                        <div class="carousel_item">
+                            <img src="{{ MEDIA_URL}}nebhs/christmas-cat-wallpaper.jpg"></img>
+                            <div class="caption">
+                                <h1>Holiday Open House</h1>
+                                <p>Dec. 5th, 2009 9am-1pm</p>
+                                <p>Pointsettias, Wreaths, Garland
+                                    and Pictures for Pets</p>
+                            </div>
+                        </div>
+                    </a>
+                </li>
+            </ul>
         </div>
     </div>
     <div class="grid_4">
         <div class="carousel_desc lbox rounded">
-            <p>Main content</p>
+            <img src="{{ MEDIA_URL }}nebhs/you_can_save_us.gif"></img>
+            <form id="donate-mini" name="donate-mini" method="POST" action=".">
+                <input id="donate-amount" name="amount" type="text" value="$40"></input>
+                <input type="submit" value="Donate Now"></input>
+            </form>
         </div>
     </div>
 </div>
@@ -42,10 +148,12 @@ $(function() {
             <h1>Events</h1>
         </div>
     </div>
-    
+
     <div class="grid_4">
         <div class="content_box rounded">
-            <h1>Events</h1>
+            <ul id="adoptable_carousel" class="jcarousel-skin-nhs-mini">
+                <!-- TODO: Graceful fallback -->
+            </ul>
         </div>
     </div>
 </div>

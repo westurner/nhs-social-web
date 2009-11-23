@@ -37,9 +37,9 @@
                     <a href="#contact">Contact</a>
                     <a href="#login">Login</a>
                     <div id="searchform" style="margin-top:2em">
-                     <form id="search" action="POST" action="#search">
-                        <input id="search_form" name="query" style="width:160px"></input>
-                    </form>
+                        <form id="search" action="POST" action="#search">
+                            <input id="search_form" name="query" style="width:160px"></input>
+                        </form>
                     </div>
                 </div>
                 <div class="clear"></div>
@@ -47,13 +47,13 @@
                     {% block mainmenu %}
                     <!--<a href="/"><img src="{{ MEDIA_URL }}global/logo.png" alt="" /></a>-->
 
-                    <a class="/#animals">Animals</a>
-                    <a class="/#services">Services</a>
-                    <a class="/#volunteer">Volunteer</a>
-                    <a class="/#programs">Programs</a>
-                    <a class="/#laws">Laws</a>
-                    <a class="/#wildlife">Wildlife</a>
-                    <a class="/#pet-shop">Pet Shop</a>
+                    <a href="#animals">Animals</a>
+                    <a href="#services">Services</a>
+                    <a href="#volunteer">Volunteer</a>
+                    <a href="#programs">Programs</a>
+                    <a href="#laws">Laws</a>
+                    <a href="#wildlife">Wildlife</a>
+                    <a href="#pet-shop">Pet Shop</a>
                     <!--
                     <a class="adopta" name="top">Adopt a:</a>
                     <a href="{% url nebhs.views.list_animals category="cats" %}" class="cats">Cat</a>
@@ -83,7 +83,7 @@
                 <div id="site_actions">
                     <p>I want to:</p>
                     <a href="#print-this">Print This Page</a>
-                    <a href="#share-this">Share This Page</a>
+<a style="text-align:center" class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}"><img src="http://static.addtoany.com/buttons/share_save_256_24.png" width="256" height="24" border="0" alt="Share/Bookmark"/></a><script type="text/javascript">a2a_linkname="{{ page_title }}";a2a_linkurl=window.location;a2a_color_main="D7E5ED";a2a_color_border="AECADB";a2a_color_link_text="333333";a2a_color_link_text_hover="333333";</script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
                     <a href="#email-this">Email This Page</a>
 
                 </div>
@@ -94,15 +94,15 @@
                     <a href="#privacy-policy">Privacy Policy</a>
                 </div>
                 <div id="admin_links">
-                <a href="/admin/">Admin interface</a>
+                    <a href="/admin/">Admin interface</a>
 
-                {% if user.is_authenticated %}
-                Welcome, {{ user.username }}!
-                <a href="{% url django.contrib.auth.views.logout %}">Logout</a>
-                {% else %}
-                <a href="{% url django.contrib.auth.views.login %}">Login</a>
-                <a href="{% url registration.views.register %}">Register</a>
-                {% endif %}
+                    {% if user.is_authenticated %}
+                    Welcome, {{ user.username }}!
+                    <a href="{% url django.contrib.auth.views.logout %}">Logout</a>
+                    {% else %}
+                    <a href="{% url django.contrib.auth.views.login %}">Login</a>
+                    <a href="{% url registration.views.register %}">Register</a>
+                    {% endif %}
                 </div>
             </div>
         </div>
