@@ -8,40 +8,17 @@
     margin-left: 0;
 }
 
-.jcarousel-skin-nhs-mini .jcarousel-container-horizontal {
+.jcarousel-skin-nhs-mini .jcarousel-container-horizontal,
+.jcarousel-skin-nhs-mini .jcarousel-clip-horizontal,
+.jcarousel-skin-nhs-mini .jcarousel-item
+{
     width: 220px;
     padding: 0;
-    height: 520px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-container-vertical {
-    width: 75px;
-    height: 245px;
-    padding: 40px 20px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-clip-horizontal {
-    width: 220px;
-    padding: 0;
-    height: 520px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-clip-vertical {
-    width:  75px;
-    height: 245px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-item {
-    width: 214px;
-    height: 520px;
+    height: 350px;
 }
 
 .jcarousel-skin-nhs-mini .jcarousel-item-horizontal {
     margin-right: 0px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-item-vertical {
-    margin-bottom: 10px;
 }
 
 .jcarousel-skin-nhs-mini .jcarousel-item-placeholder {
@@ -56,8 +33,7 @@
  .jcarousel-skin-nhs-mini .jcarousel-next-horizontal,
  .jcarousel-skin-nhs-mini .jcarousel-prev-horizontal {
     position: absolute;
-    top: 280px;
-
+    top: 300px;
     width: 32px;
     height: 40px;
     cursor: pointer;
@@ -104,55 +80,3 @@
     background-position: -96px 0;
 }
 
-/**
- *  Vertical Buttons
- */
-.jcarousel-skin-nhs-mini .jcarousel-next-vertical {
-    position: absolute;
-    bottom: 5px;
-    left: 43px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    background: transparent url(next-vertical.png) no-repeat 0 0;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-next-vertical:hover {
-    background-position: 0 -32px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-next-vertical:active {
-    background-position: 0 -64px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-next-disabled-vertical,
-.jcarousel-skin-nhs-mini .jcarousel-next-disabled-vertical:hover,
-.jcarousel-skin-nhs-mini .jcarousel-next-disabled-vertical:active {
-    cursor: default;
-    background-position: 0 -96px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-prev-vertical {
-    position: absolute;
-    top: 5px;
-    left: 43px;
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    background: transparent url(prev-vertical.png) no-repeat 0 0;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-prev-vertical:hover {
-    background-position: 0 -32px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-prev-vertical:active {
-    background-position: 0 -64px;
-}
-
-.jcarousel-skin-nhs-mini .jcarousel-prev-disabled-vertical,
-.jcarousel-skin-nhs-mini .jcarousel-prev-disabled-vertical:hover,
-.jcarousel-skin-nhs-mini .jcarousel-prev-disabled-vertical:active {
-    cursor: default;
-    background-position: 0 -96px;
-}

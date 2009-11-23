@@ -9,7 +9,7 @@
 }
 
 .jcarousel-skin-nhs-main .jcarousel-container-horizontal {
-    width: 698px;
+    width: 700px;
     padding: 0;
     height: 520px;
 }
@@ -21,7 +21,7 @@
 }
 
 .jcarousel-skin-nhs-main .jcarousel-clip-horizontal {
-    width: 698px;
+    width: 700px;
     padding: 0;
     height: 520px;
 }
@@ -32,7 +32,7 @@
 }
 
 .jcarousel-skin-nhs-main .jcarousel-item {
-    width: 696px;
+    width: 700px;
     height: 520px;
 }
 
@@ -57,7 +57,7 @@
  .jcarousel-skin-nhs-main .jcarousel-prev-horizontal {
     position: absolute;
     top: 480px;
-
+    opacity:0.5;
     width: 32px;
     height: 40px;
     cursor: pointer;
@@ -66,7 +66,7 @@
 
     right: 5px;
     background: transparent url(next-horizontal.png) no-repeat 0 0;
-    opacity:0.5;
+    
 }
 
 .jcarousel-skin-nhs-main .jcarousel-next-horizontal:hover {

@@ -5,8 +5,15 @@
         <![CDATA[
                 <li>
                 <div class="adoptable">
-                <img src="<%= this.img_uri %>" alt="<%= this.name %>"></img>
-                <p class="adoptable_name"><%= this.name %></p>
+                <a href="<%= this.uri %>"><img src="<%= this.img_uri %>" alt="<%= this.name %>"></img></a>
+                <p class="adoptable_name"><a href="<%= this.uri %>"><%= this.name %></a></p>
+                <table style="width:200px">
+                <tr><td>Breed</td><td><%= this.breed ? this.breed : "Unknown" %></td></tr>
+                <tr><td>Main Color</td><td><%= this.main_color ? this.main_color : "Unknown" %></td></tr>
+                <tr><td>Age</td><td><%= this.age ? this.age : "Unknown" %></td></tr>
+                <tr><td>Gender</td><td><%= this.gender ? this.gender : "Unknown" %></td></tr>
+                <tr><td>Brought to Shelter</td><td><%= this.brought_to_shelter ? this.brought_to_shelter : "Unknown" %></td></tr>
+                </table>
                 </div>
                 </li>
             ]]>
@@ -47,6 +54,7 @@
         $('#main_carousel').jcarousel({
             auto: 5,
             wrap: 'last',
+            scroll:1,
             initCallback: maincarousel_initCallback
         });
     });
@@ -60,7 +68,9 @@
                 $("#adoptable_tmpl").jqote(item).appendTo("#adoptable_carousel");
             });
             /// TODO: Error handling/Graceful fallback
-            $('#adoptable_carousel').jcarousel();
+            $('#adoptable_carousel').jcarousel({
+                scroll:1
+            });
         });
         
         
@@ -118,11 +128,23 @@
         </div>
     </div>
     <div class="grid_4">
-        <div class="carousel_desc lbox rounded">
-            <img src="{{ MEDIA_URL }}nebhs/you_can_save_us.gif"></img>
+        <div class="col_right">
+            <h3>Adopt</h3>
+            <ul id="adoptable_carousel" class="jcarousel-skin-nhs-mini">
+                <!-- TODO: Graceful fallback -->
+
+            </ul>
+            <div class="greenbox">
+            <h3>Donate</h3>
             <form id="donate-mini" name="donate-mini" method="POST" action=".">
-                <input id="donate-amount" name="amount" type="text" value="$40"></input>
+                <input id="donate-amount" class="clearonfocus {initial:'$40'}" name="amount" type="text"></input>
                 <input type="submit" value="Donate Now"></input>
+            </form>
+            </div>
+            <h3>Join Our Mailing List</h3>
+            <form id="mailing-list" name="mailing-list" method="POST" action=".">
+                <input id="email-address" class="clearonfocus {initial:'Your Email Address'}" name="email-address" type="text"></input>
+                <input type="submit" value="Go"></input>
             </form>
         </div>
     </div>
@@ -133,7 +155,7 @@
 <div class="home_row_2">
     <div class="grid_4">
         <div class="content_box rounded">
-            <h1>Events</h1>
+            <h1>Our Services</h1>
         </div>
     </div>
 
@@ -151,9 +173,7 @@
 
     <div class="grid_4">
         <div class="content_box rounded">
-            <ul id="adoptable_carousel" class="jcarousel-skin-nhs-mini">
-                <!-- TODO: Graceful fallback -->
-            </ul>
+
         </div>
     </div>
 </div>

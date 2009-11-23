@@ -16,14 +16,18 @@ class AnimalHandler(BaseHandler):
         'main_color','breed','age','brought_to_shelter',
         'status','located_at','description','category','url',
         'img_uri','meet_your_match','youtube_video_url',
-        'petharbor_url','last_checked')
+        'petharbor_url','last_checked','uri')
 
     @classmethod
     def img_uri(cls,animal):
         try:
-            return reverse('image_serve_scaled',kwargs=dict(image_key=animal.photo.key(),extension='png',width='210',height='210'))
+            return reverse('image_serve_scaled',kwargs=dict(image_key=animal.photo.key(),extension='png',width='220',height='220'))
         except:
             return settings.DEFAULT_IMAGE_UNAVAILABLE
+
+    @classmethod
+    def uri(cli,animal):
+        return animal.get_absolute_url()
 
     def read(self, request, category=None, code=None, status='adoptable',
         meet_your_match=None):
