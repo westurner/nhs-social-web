@@ -25,7 +25,7 @@ body {
 
 
 
-a.adopta, a.adopta:hover { text-decoration: none; cursor: default; font-size: 1.2em; }
+a.adopta, a.adopta:hover { text-decoration: none;  font-size: 1.2em; }
 
 .animal_details h1 { font-size: 40px; margin-bottom:5px;}
 .animal_details ul, ul.animal_list { list-style-type: none }
@@ -59,9 +59,28 @@ a:hover { text-decoration: underline }
 #menu a:hover  { color: #e8c42d; }
  body.dogs #menu a.dogs, body.cats #menu a.cats, body.other #menu a.other { color: #e8c42d; }
 
-#content h1 { color: #4040B0; }
+#content h1 { color: #381d7a; }
 
-#footer { opacity: 0.2; text-align:right; }
-#footer:hover { opacity: 0.5 }
+#admin_links  { opacity: 0.2; text-align:right; }
+#admin_links:hover { opacity: 0.5 }
 
 div.animal_mini { clear:both; }
+
+
+div.lbox {
+    background: #e6e6e6;
+    border: 1px solid #c7c7c7;
+}
+
+div.home_row_1 div.carousel_content, div.home_row_1 div.carousel_desc {
+     height:370px;
+     margin: 20px 0;
+}
+
+div.home_row_2 { margin: 20px 0; }
+
+div.home_row_2 div.content_box { background: #e6e6e6; height: 320px;}
+div.home_row_2 h1 { /* background: #e6e6e6; */ border-bottom: 2px solid #a000a0; color: #a000a0; }
+
+#footer { text-align: center; }
+#footer a { border-right: 1px solid #aaa; padding: 0 5px; }
