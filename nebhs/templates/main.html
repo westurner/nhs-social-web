@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block extra-head %}
+<script type="text/javascript">
+$(function() {
+			$("div.rounded").corner("10px");
+		});
+</script>
+
+{% endblock extra-head %}
+{% block content %}
+
+<div class="home_row_1">
+    <div class="grid_12">
+        <div class="carousel_content lbox rounded">
+            &nbsp;
+        </div>
+    </div>
+    <div class="grid_4">
+        <div class="carousel_desc lbox rounded">
+            <p>Main content</p>
+        </div>
+    </div>
+</div>
+<div class="clear"></div>
+
+
+<div class="home_row_2">
+    <div class="grid_4">
+        <div class="content_box rounded">
+            <h1>Events</h1>
+        </div>
+    </div>
+
+    <div class="grid_4">
+        <div class="content_box rounded">
+            <h1>Events</h1>
+        </div>
+    </div>
+
+    <div class="grid_4">
+        <div class="content_box rounded">
+            <h1>Events</h1>
+        </div>
+    </div>
+    
+    <div class="grid_4">
+        <div class="content_box rounded">
+            <h1>Events</h1>
+        </div>
+    </div>
+</div>
+{% endblock content %}

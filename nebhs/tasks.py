@@ -14,7 +14,11 @@ from ragendja.template import TextResponse
 import html5lib
 from BeautifulSoup import BeautifulSoup as BS
 from html5lib import sanitizer, treebuilders
-from settings import DEBUG
+
+try:
+    from settings import DEBUG
+except:
+    DEBUG = False
 
 import logging
 
