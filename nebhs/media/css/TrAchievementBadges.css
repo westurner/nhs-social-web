@@ -1,0 +1,32 @@
+.TrAchievementBadgeIconListLarge {
+}
+
+.TrAchievementBadgeIconListLargeHeader {
+  font-weight: bold;
+  text-align: center;
+}
+
+.TrAchievementBadgeLarge {
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.TrAchievementBadgeIconLarge {
+  width: 48px;
+  float: left;
+}
+
+.TrAchievementBadgeTextLarge {
+  margin-left:48px;
+  padding-left: 5px;
+}
+
+.TrAchievementBadgeNameLarge {
+  font-weight: bold;
+  text-align: left;
+}
+
+.TrAchievementBadgeDescLarge {
+  text-align: left;
+}
