@@ -19,7 +19,6 @@ COMBINE_MEDIA = {
         '.site_data.js',
     ),
     'combined-%(LANGUAGE_DIR)s.css': (
-        'global/look.css',
     ),
 }
 
@@ -107,6 +106,12 @@ INSTALLED_APPS = (
     'mediautils',
     'piston',
     'nebhs',
+)
+
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.load_template_source',
+    'ragendja.template.app_prefixed_loader',
+    'django.template.loaders.app_directories.load_template_source',
 )
 
 # List apps which should be left out from app settings and urlsauto loading

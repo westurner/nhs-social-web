@@ -12,8 +12,8 @@ def query_keygen(*args,**kwargs):
     kwargs.update(dict(args[1]))
     return default_keygen(**kwargs)
 
-@memoize(3600,keygen=query_keygen)
-def api_query(cls, params,limit=70):
+#@memoize(3600,keygen=query_keygen,force_cache=True)
+def api_query(cls, params,limit=20):
     b = db.Query(cls)
     for k,v in params:
         if v:
@@ -30,13 +30,30 @@ class AnimalHandler(BaseHandler):
     fields = ('name', 'code','gender','spayed_or_neutered',
         'main_color','breed','age','brought_to_shelter',
         'status','located_at','description','category','url',
-        'img_uri','meet_your_match','youtube_video_url',
+        'img_uri','img_uri_full','meet_your_match','youtube_video_url',
         'petharbor_url','last_checked','uri')
 
     @classmethod
     def img_uri(cls,animal):
         try:
-            return reverse('image_serve_scaled',kwargs=dict(image_key=animal.photo.key(),extension='png',width='220',height='220'))
+            return reverse('image_serve_scaled',
+                    kwargs=dict(
+                        image_key=animal.photo.key(),
+                        extension='png',
+                        width='220',
+                        height='220'))
+        except:
+            return settings.DEFAULT_IMAGE_UNAVAILABLE
+
+    @classmethod
+    def img_uri_full(cls,animal):
+        try:
+            return reverse('image_serve_scaled',
+                    kwargs=dict(
+                        image_key=animal.photo.key(),
+                        extension='png',
+                        width='440',
+                        height='440'))
         except:
             return settings.DEFAULT_IMAGE_UNAVAILABLE
 
@@ -65,5 +82,6 @@ class AnonymousAnimalHandler(AnimalHandler, AnonymousBaseHandler):
     """
     Anonymous entrypoint for animals.
     """
-    fields = ('name', 'code','gender','spayed_or_neutered','main_color','breed','age','brought_to_shelter',
-    'status','located_at','description','category',)
+    fields = ('name', 'code','gender','spayed_or_neutered','main_color',
+    'breed','age','brought_to_shelter','status',
+    'located_at','description','category',)

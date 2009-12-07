@@ -21,10 +21,14 @@
         {% endblock %}
         <script type="text/javascript">
             $(document).ready(function() {
-                $('.clearonfocus').defaultValue()
+                $('.clearonfocus').defaultValue();
+                
+                hand_bkg = $('<div id="hand_bkg" class="hand_bkg"></div>');
+                hand_bkg.appendTo($('body'));
             });
-            
         </script>
+
+
         {% block extra-head %}{% endblock %}
     </head>
 
@@ -33,45 +37,48 @@
             {% block header %}
 
             <div id="header" class="">
-                <div class="grid_3" id="logo">
-                    <a href="/"><img src="{{ MEDIA_URL }}nebhs/logo_orig.jpg" width="160px" height="140px" alt="The Nebraska Humane Society" /></a>
+                <div class="grid_2" id="logo">
+                    <a name="top" alt="Nebraska Humane Society" href="/"><img src="{{ MEDIA_URL }}nebhs/img/logo-100x91.png" width="100px" height="91px" alt="The Nebraska Humane Society" /></a>
                 </div>
-                <div id="shortmenu" class="grid_4 prefix_9">
+
+                <div id="shortmenu" class="grid_4 prefix_10">
                     <a href="/">Home</a>
                     <a href="#about">About</a>
                     <a href="#contact">Contact</a>
                     <a href="#login">Login</a>
-                    <div id="searchform" style="margin-top:2em">
-                        <form id="search" action="POST" action="#search">
-                            <input id="search_form" class="clearonfocus {initial:'Search...'}" name="query" style="width:160px"></input>
-                        </form>
-                    </div>
+
                 </div>
                 <div class="clear"></div>
-                <div id="menu" class="grid_16">
+                <div class="grid_10 push_3" id="menu" >
                     {% block mainmenu %}
                     <!--<a href="/"><img src="{{ MEDIA_URL }}global/logo.png" alt="" /></a>-->
+                    <ul>
+                        <li><a href="/adopt/">Adopt</a></li>
+                        <li><a href="/services">Services</a></li>
+                        <li><a href="#volunteer">Volunteer</a></li>
+                        <li><a href="/programs/">Programs</a></li>
+                        <li><a href="#laws">Laws</a></li>
+                        <li><a href="#wildlife">Wildlife</a></li>
+                        <li><a href="#pet-shop">Pet Shop</a></li>
 
-                    <a href="#animals">Animals</a>
-                    <a href="#services">Services</a>
-                    <a href="#volunteer">Volunteer</a>
-                    <a href="#programs">Programs</a>
-                    <a href="#laws">Laws</a>
-                    <a href="#wildlife">Wildlife</a>
-                    <a href="#pet-shop">Pet Shop</a>
+                        <li><form id="search" action="POST" action="#search">
+                            <input id="search_form" class="clearonfocus {initial:'Search...'}" name="query" style="width: 100px; border:2px solid #ccc; padding:2px; margin: 2px;"></input>
+                        </form></li>
+
                     <!--
                     <a class="adopta" name="top">Adopt a:</a>
                     <a href="{% url nebhs.views.list_animals category="cats" %}" class="cats">Cat</a>
                     <a href="{% url nebhs.views.list_animals category="dogs" %}" class="dogs">Dog</a>
                     <a href="{% url nebhs.views.list_animals category="other" %}" class="other">Other</a>
                     -->
+                    </ul>
                     {% endblock mainmenu %}
                 </div>
             </div>
 
             {% endblock %}
             <div class="clear"></div>
-            <div id="content" class="column container">
+            <div id="content" class="column container grid_16 alpha">
                 {% block content-header %}
                 {% if error %}<div class="error">{{ error }}</div>{% endif %}
                 {% if info %}<div class="info">{{ info }}</div>{% endif %}
@@ -86,11 +93,26 @@
             <div class="clear"></div>
             <div id="footer" class="grid_16" style="margin-top:5em">
                 <div id="site_actions">
-                    <p>I want to:</p>
+
                     <a href="#print-this">Print This Page</a>
-<a style="text-align:center" class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}"><img src="http://static.addtoany.com/buttons/share_save_256_24.png" width="256" height="24" border="0" alt="Share/Bookmark"/></a><script type="text/javascript">a2a_linkname="{{ page_title }}";a2a_linkurl=window.location;a2a_color_main="D7E5ED";a2a_color_border="AECADB";a2a_color_link_text="333333";a2a_color_link_text_hover="333333";</script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
+                    <a style="text-align:center" class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}">
+                    <img src="http://static.addtoany.com/buttons/favicon.png" width="16" height="16" border="0" alt="Share/Bookmark"/>Share This Page</a>
+                    <script type="text/javascript">
+                        a2a_linkname="{{ page_title }}";
+                        a2a_linkurl=window.location;
+                        a2a_color_main="D7E5ED";
+                        a2a_color_border="AECADB";
+                        a2a_color_link_text="333333";
+                        a2a_color_link_text_hover="333333";
+                    </script>
+                    <script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
                     <a href="#email-this">Email This Page</a>
 
+                </div>
+                <div class="contact_information">
+                    <span>Nebraska Humane Society</span><br/>
+                    <span> 8929 Fort Street | Omaha, Nebraska 68134</span><br/>
+                    <span>T: (402) 444-7800 | F: (402) 546-1476 </span>
                 </div>
                 <div>
                     <a href="#home">Home</a>
@@ -98,6 +120,8 @@
                     <a href="#employment-opportunities">Employment Opportunities</a>
                     <a href="#privacy-policy">Privacy Policy</a>
                 </div>
+
+
                 <div id="admin_links">
                     <a href="/admin/">Admin interface</a>
 
@@ -111,5 +135,6 @@
                 </div>
             </div>
         </div>
+        <div id="donate_fixed" onclick="javascript:window.open('https://secure3.convio.net/nhs/site/Donation2?idb=1082884796&df_id=1720&1720.donation=form1')"></div>
     </body>
 </html>
