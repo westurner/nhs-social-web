@@ -14,7 +14,7 @@
                     <table style="width:200px">
                     <tr><td>Breed</td><td><%= this.breed ? this.breed : "Unknown" %></td></tr>
                     <tr><td>Main Color</td><td><%= this.main_color ? this.main_color : "Unknown" %></td></tr>
-                    <tr><td>Age</td><td><%= this.age ? this.age : "Unknown" %></td></tr>
+                    <tr><td>Age</td><td><%= this.age ? this.age_str : "Unknown" %></td></tr>
                     <tr><td>Gender</td><td><%= this.gender ? this.gender : "Unknown" %></td></tr>
                     <tr><td>Since</td><td><%= this.brought_to_shelter ? this.brought_to_shelter : "Unknown" %></td></tr>
                     </table>
@@ -102,10 +102,10 @@
 {% block page_title_frame %}{% endblock page_title_frame %}
 {% block section_nav %}
 <h2>Adoptions</h2>
-<ul>
-    <li><a href="/adopt/dogs/">Adoptable Dogs</a></li>
-    <li><a href="/adopt/cats/">Adoptable Cats</a></li>
-    <li><a href="/adopt/other/">Other Adoptable Animals</a></li>
+<ul id="adopt_menu" class="menu">
+    <li><a class="dogs" href="/adopt/dogs/">Dogs and Puppies</a></li>
+    <li><a class="cats" href="/adopt/cats/">Cats and Kittens</a></li>
+    <li><a class="other" href="/adopt/other/">Other</a></li>
 </ul>
 
 <h3>Information</h3>
@@ -134,13 +134,13 @@
 <h1 id="header_adopt">Adopt</h1>
 <div class="grid_8 push_1 alpha">
 <ul id="adoptable_carousel" class="jcarousel-skin-nhs-adoptions">
-    <!-- TODO: Graceful fallback -->
+    <!-- TODO: Graceful fallback 
 </ul>
     <ul class="no-style">
         <li><a href="/adopt/dogs">Adopt a Dog</a></li>
         <li><a href="/adopt/cats">Adopt a Cat</a></li>
         <li><a href="/adopt/other">Adopt an Other Animal</a></li>
-    </ul>
+    </ul>-->
 </div>
 
 </div>

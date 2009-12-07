@@ -28,7 +28,7 @@ class AnimalHandler(BaseHandler):
     allowed_methods = ('GET',)
     anonymous = 'AnonymousAnimalHandler'
     fields = ('name', 'code','gender','spayed_or_neutered',
-        'main_color','breed','age','brought_to_shelter',
+        'main_color','breed','age','age_str','brought_to_shelter',
         'status','located_at','description','category','url',
         'img_uri','img_uri_full','meet_your_match','youtube_video_url',
         'petharbor_url','last_checked','uri')

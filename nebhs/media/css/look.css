@@ -5,6 +5,8 @@ text-align:right;
 }
 
 #admin_links:hover {
+-moz-opacity:.5;
+filter:alpha(opacity=0.5);
 opacity:.5;
 }
 
@@ -50,7 +52,7 @@ height:28px;
 }
 
 #donate_fixed {
-background:url(../img/donate-sprite-64x92.png);
+background:url(../img/donate_rotate-green.png);
 bottom:304px;
 cursor:pointer;
 height:92px;
@@ -91,15 +93,16 @@ text-align:left;
 }
 
 #main_carousel div.caption_bkg {
--moz-opacity:.5;
+
 background:#000;
 bottom:0;
 color:#FFF;
+-moz-opacity:.5;
 filter:alpha(opacity=0.5);
-height:90px;
 opacity:.5;
 position:absolute;
-width:700px;
+height:90px;
+width:580px;
 z-index:2;
 }
 
@@ -149,7 +152,10 @@ margin-left:0;
     position:fixed;
     left:0;
     bottom:0;
-    opacity:0.4;
+    -moz-opacity:.4;
+    filter:alpha(opacity=0.4);
+    opacity:.4;
+    height:90px;
     z-index:-3;
 }
 
@@ -203,8 +209,10 @@ background-attachment:fixed;
 height:100%;
 }
 
-body.dogs #menu a.dogs,body.cats #menu a.cats,body.other #menu a.other {
+body.dogs .menu a.dogs,body.cats .menu a.cats,body.other .menu a.other {
 color:#e8c42d;
+color:#381d7a;
+border-bottom:2px solid #faeb6e;
 }
 
 div.animal_desc_mini a {
@@ -227,6 +235,7 @@ margin:0 auto;
 div.animal_photo,#disqus_thread {
 background:#E5ECF9;
 border:1px solid #c5cce9;
+margin-top:12px;
 }
 
 div.carousel_content {
@@ -256,7 +265,7 @@ font-size:1em;
 }
 
 div.content_box p,dl,hr,h1,h2,h3,h4,h5,h6,ol,ul,pre,table,address,fieldset {
-margin-bottom:0;
+margin-bottom:12px;
 }
 
 div.help h2 {
@@ -298,7 +307,8 @@ margin-left:10px;
 
 h1,h2,h3,h4,h5,h6 {
 font-family:"Century Gothic","Apple Gothic","Lucida Grande",Helvetica,Arial,Verdana,sans-serif!important;
-font-weight:400;
+font-weight:700;
+color: #333;
 }
 
 ul.no-style {
@@ -318,3 +328,32 @@ a.a2a_dd img {
 
 a.redasterisk { font-size: 2em; color: #d00;line-height:0.7em }
 a.redasterisk:hover { text-decoration: none; }
+
+
+#search_form {
+    color:#AAAAAA;
+font-size:1.3em;
+padding:0 4px;
+width: 100px;
+border:2px solid #ccc;
+padding:2px;
+margin: 2px;
+}
+
+dt {
+color: #aaa;
+}
+
+#adopt_menu a:hover {
+    border-bottom:2px solid #faeb6e;
+    color:#381d7a;
+    text-decoration:none;
+}
+
+#adopt_menu a {
+    font-size: 1.3em;
+}
+
+#header_adopt {
+    
+}
