@@ -1,15 +1,14 @@
 
 
 
-<div class="grid_3 prefix_3">
+<div class="grid_3 alpha">
     <a rel="permalink" href="{{ object.get_absolute_url }}">
-    <img src="{% url image_serve_scaled image_key=object.photo.key extension='png' width=150 height=150 %}" style="width:150px; padding-right:15px; padding-top: 5px"/>
+    <img src="{% url image_serve_scaled image_key=object.photo.key extension='png' width=160 height=160 %}" style="width:150px; padding-right:15px; padding-top: 5px"/>
     </a>
 </div>
-<div class="grid_7 animal_desc_mini">
-<a rel="permalink" href="{{ object.get_absolute_url }}">{{ object.name|capfirst }} the {{ object.breed }}</a>
+<div class="grid_7 animal_desc_mini omega">
+<a rel="permalink" href="{{ object.get_absolute_url }}">{{ object.breed }} &mdash; {{ object.name|capfirst }}</a>
 
-<p>Breed: <strong>{{ object.breed }}</strong>  Main Color: <strong> {{ object.main_color }}</strong> .
-{{ object.gender_str|capfirst }}{% if object.age %}'s <strong>{{ object.age_str }} young</strong> and{% endif %} was brought to the shelter on {{ object.brought_to_shelter|date:"F jS, Y" }}</p>
+<p>Main Color: <strong> {{ object.main_color }}</strong><br/>{{ object.gender_str|capfirst }}{% if object.age %}'s <strong>{{ object.age_str }} young</strong> and{% endif %} was brought to the shelter on {{ object.brought_to_shelter|date:"F jS, Y" }}</p>
 {#{% if object.description %}<p class="description pullquote">{{ object.description }}</p>{% endif %}#}
 </div>

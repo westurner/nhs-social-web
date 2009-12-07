@@ -2,8 +2,8 @@
 {% block title %}{{ flatpage.title }}{% endblock title %}
 {% block extra-head %}{% endblock extra-head %}
 {% block content %}
-<div class="grid_3"><div class="section-nav">{% block section_nav %}{% endblock %}</div></div>
-<div class="grid_10">
+<div class="grid_3 alpha"><div class="section-nav">{% block section_nav %}{% endblock %}</div></div>
+<div class="grid_10 omega">
     {% block page_title_frame %}<h1><a name="top" href="{{ flatpage.get_absolute_url }}">{% block page_title %}{{ flatpage.title }}{% endblock %}</a></h1>{% endblock page_title_frame %}
     {% block page_content %}{{ flatpage.content|safe }}{% endblock %}
 </div>

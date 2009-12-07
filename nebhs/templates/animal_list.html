@@ -1,9 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'section-adoptions.html' %}
 {% block title %}Adoptable {{ page_title }}{% endblock %}
 {% block body-class %}{{ category }}{% endblock %}
-{% block content %}
+{% block page_content %}
 
-<div class="grid_10 prefix_3">
+<div class="grid_10 alpha">
 <h1><a href="{% url nebhs.views.list_animals category=category %}">{{ page_title }}</a></h1>
 </div>
 <div class="clear"></div>
@@ -18,7 +18,7 @@
 </ul>
 
 {% else %}
-<div class="grid_10 prefix_3"
+<div class="grid_10 alpha"
     <p class="none_found">We currently don't have any {{ page_title|lower }}. Check back soon!</p>
 </div>
 {% endif %}

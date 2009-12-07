@@ -23,7 +23,7 @@
             </li>
             
             <li>
-                <strong>Donate</strong> to us
+                <strong>Donate</strong> <a href="#donate">here</a>
             </li>
             <li>
                 Add a positive <strong>comment</strong> below
@@ -41,14 +41,14 @@
 <div class="grid_3 omega">
     <div class="animal_details">
     <h1><a href="{{ object.get_absolute_url }}">{{ object.name|capfirst }}</a></h1>
-    <ul style="list-style-type: none">
-        <li>Breed: <br/><strong>{{ object.breed }}</strong></li>
-        <li>Main Color: <br/><strong>{{ object.main_color }}</strong></li>
-        <li>Age: <br/><strong>{{ object.age_str }}</strong></li>
-        <li>Gender: <br/><strong>{{ object.gender }}</strong></li>
-        <li>Spayed or Neutered: <br/><strong>{{ object.spayed_or_neutered }}</strong></li>
-        <li>Since: <br/><strong>{{ object.brought_to_shelter }}</strong></li>
-        <li style="font-style:italic""><a href="{{ object.petharbor_url|default:"http://petharbor.com" }}">{{ object.last_checked|default_if_none:"Not Sure" }}</a></li>
+    <dl style="list-style-type: none">
+        <dt>Breed:</dt><dd>{{ object.breed }}</dd>
+        <dt>Main Color: </dt><dd>{{ object.main_color }}</dd>
+        <dt>Age: </dt><dd>{{ object.age_str }}</dd>
+        <dt>Gender: </dt><dd>{{ object.gender }}</dd>
+        <dt>Spayed or Neutered:</dt><dd>{{ object.spayed_or_neutered }}</dd>
+        <dt>Since:</dt><dd>{{ object.brought_to_shelter }}</dd>
+        {% if object.checked %}<span style="font-style:italic; color: #aaa;"><a href="{{ object.petharbor_url|default:"http://petharbor.com" }}">{{ object.last_checked|default_if_none:"Not Sure" }}</a></span>{% endif %}
     </ul>
     </div>
 
