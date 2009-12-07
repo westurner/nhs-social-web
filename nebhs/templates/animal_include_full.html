@@ -1,24 +1,69 @@
 
 
+<div class="grid_7 alpha">
+    <div class="animal_photo">
+    {% if object.photo %}
+        <img src="{% url image_serve_scaled image_key=object.photo.key extension='png' width=400 height=400 %}" />
+    {% else %}
+        <p style="text-align: center; width: 100%; font-size: 1.2em">We don't have a photo for <strong>{{ object.name|capfirst }}</strong>, yet</span>
+    {% endif %}
+    </div>
 
-<div class="grid_7">
+    <div class="help">
+
+    <div class="youcanhelp">
+        <h3 style="margin-bottom: 0.5em">Can you help find me a good home?</h3>
+        <ol>
+            <li>
+                <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}"><img src="http://static.addtoany.com/buttons/favicon.png" width="16" height="16" border="0" alt="Share/Bookmark"/>Share</a><script type="text/javascript">a2a_linkname="{{ page_title }}";a2a_linkurl=window.location;a2a_color_main="D7E5ED";a2a_color_border="AECADB";a2a_color_link_text="333333";a2a_color_link_text_hover="333333";</script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script> <span class="padding-bottom:8px"> <a href="{{ object.get_absolute_url }}">my page</a> with good people</span>
+            </li>
+
+            <li>
+                <strong>Adopt me Today</strong><a class="redasterisk" href="#">*</a>
+            </li>
+            
+            <li>
+                <strong>Donate</strong> to us
+            </li>
+            <li>
+                Add a positive <strong>comment</strong> below
+            </li>
+        </ul>
+        
+    </div>
+  
+    <div style="width:256px; margin:1em auto 0 auto"></div>
+
+    <!-- <h2>Donate For {{ object.name|capfirst }} </h2> -->
+    </div>
+</div>
+
+<div class="grid_3 omega">
     <div class="animal_details">
     <h1><a href="{{ object.get_absolute_url }}">{{ object.name|capfirst }}</a></h1>
     <ul style="list-style-type: none">
-        <li>Breed: <strong>{{ object.breed }}</strong></li>
-        <li>Main Color: <strong>{{ object.main_color }}</strong></li>
-        <li>Age: <strong>{{ object.age_str }}</strong></li>
-        <li>Gender: <strong>{{ object.gender }}</strong></li>
-        <li>Spayed or Neutered: <strong>{{ object.spayed_or_neutered }}</strong></li>
-        <li>Brought to Shelter: <strong>{{ object.brought_to_shelter }}</strong></li>
-        <li style="font-style:italic">Last Updated: <a href="{{ object.petharbor_url|default:"http://petharbor.com" }}">{{ object.last_checked|default_if_none:"Not Sure" }}</a></li>
+        <li>Breed: <br/><strong>{{ object.breed }}</strong></li>
+        <li>Main Color: <br/><strong>{{ object.main_color }}</strong></li>
+        <li>Age: <br/><strong>{{ object.age_str }}</strong></li>
+        <li>Gender: <br/><strong>{{ object.gender }}</strong></li>
+        <li>Spayed or Neutered: <br/><strong>{{ object.spayed_or_neutered }}</strong></li>
+        <li>Since: <br/><strong>{{ object.brought_to_shelter }}</strong></li>
+        <li style="font-style:italic""><a href="{{ object.petharbor_url|default:"http://petharbor.com" }}">{{ object.last_checked|default_if_none:"Not Sure" }}</a></li>
     </ul>
     </div>
 
-    {% if object.description %}<p class="description pullquote">{{ object.description }}</p>{% endif %}
+      <div style="width:100px; margin: 1em auto 0 auto"><img src="{{ MEDIA_URL }}nebhs/img/arrow_up_blue.png" width="100px""/></div>
+</div>
+
 
 <div class="clear"></div>
 
+
+
+
+
+<div class="grid_9 alpha push 1">
+    {% if object.description %}<p class="description pullquote">{{ object.description }}</p>{% endif %}
     {% block comments %}
     {% if debug %}
     <script type="text/javascript">
@@ -30,26 +75,4 @@
     {% endif %}
     <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/nhsadoptions/embed.js"></script><noscript><a href="http://disqus.com/forums/nhsadoptions/?url=ref">View the discussion thread.</a></noscript><!--<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>-->
     {% endblock comments %}
-
 </div>
-
-<div class="grid_9">
-    <div class="animal_photo">
-    {% if object.photo %}
-        <img src="{% url image_serve_scaled image_key=object.photo.key extension='png' width=490 height=340 %}" />
-    {% else %}    
-        <p style="text-align: center; width: 100%; font-size: 1.2em">We don't have a photo for <strong>{{ object.name|capfirst }}</strong>, yet</span>
-    {% endif %}
-    </div>
-
-
-
-<div class="help">
-<h2>Help me find a good home?</h2>
-<div style="width:100px; margin: 1em auto 0 auto"><img src="{{ MEDIA_URL }}global/arrow_up_blue.png" width="100px""/></div>
-<div style="width:256px; margin:1em auto 0 auto"><a style="text-align:center" class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}"><img src="http://static.addtoany.com/buttons/share_save_256_24.png" width="256" height="24" border="0" alt="Share/Bookmark"/></a><script type="text/javascript">a2a_linkname="{{ page_title }}";a2a_linkurl=window.location;a2a_color_main="D7E5ED";a2a_color_border="AECADB";a2a_color_link_text="333333";a2a_color_link_text_hover="333333";</script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script></div>
-
-<!-- <h2>Donate For {{ object.name|capfirst }} </h2> -->
-</div>
-</div>
-

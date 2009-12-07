@@ -1,0 +1,151 @@
+{% extends "section_base.html" %}
+{% block extra-head %}
+<script type="text/html" id="adoptable_tmpl">
+    /// TODO: prepend server url to img_uri
+        <![CDATA[
+                <li>
+                <div class="grid_4 alpha">
+                    <div class="adoptable">
+                    <a href="<%= this.uri %>"><img src="<%= this.img_uri %>" alt="<%= this.name %>"></img></a>
+                    </div>
+                </div>
+                <div class="grid_4 omega">
+                    <p class="adoptable_name"><a href="<%= this.uri %>"><%= this.name %></a></p>
+                    <table style="width:200px">
+                    <tr><td>Breed</td><td><%= this.breed ? this.breed : "Unknown" %></td></tr>
+                    <tr><td>Main Color</td><td><%= this.main_color ? this.main_color : "Unknown" %></td></tr>
+                    <tr><td>Age</td><td><%= this.age ? this.age : "Unknown" %></td></tr>
+                    <tr><td>Gender</td><td><%= this.gender ? this.gender : "Unknown" %></td></tr>
+                    <tr><td>Since</td><td><%= this.brought_to_shelter ? this.brought_to_shelter : "Unknown" %></td></tr>
+                    </table>
+                </div>
+                </li>
+            ]]>
+</script>
+<script type="text/html" id="adoptable_tmpl_minimal">
+    /// TODO: prepend server url to img_uri
+        <![CDATA[
+                <li>
+                <div class="adoptable">
+                <a href="<%= this.uri %>"><img src="<%= this.img_uri %>" alt="<%= this.name %>"></img></a>
+                <p class="adoptable_name"><a href="<%= this.uri %>"><%= this.name %></a></p>
+                </div>
+                </li>
+            ]]>
+</script>
+<script type="text/javascript">
+    categories = [
+        ['cats','Cat','Adopt a Cat'],
+        ['dogs','Dog','Adopt a Dog'],
+        /*['other','Animal','Adopt an Animal']*/
+    ];
+    var found_animals = false;
+
+    /// Load adoptable pets
+    function load_adoptable_animals(category) {
+        category_id = category[0];
+        category_name = category[1];
+        header_text = category[2];
+
+        $.getJSON("/adopt/api/animals/json/?category=" + category_id + "&callback=?",
+            function(data){
+                if (data.length){
+
+
+                    $.each(data, function(i,item){
+                        $("#adoptable_tmpl").jqote(item).appendTo("#adoptable_carousel");
+                        found_animals = true;
+                    });
+
+                    if (found_animals) {
+                        $('#header_adopt').html(header_text);
+                    }
+                    /// TODO: Error handling/Graceful fallback
+                    $('#adoptable_carousel').jcarousel({
+                        scroll:1
+                    });
+                };
+        });
+    };
+
+    (function($){
+      $.fn.shuffle = function() {
+        return this.each(function(){
+          var items = $(this).children();
+          return (items.length)
+            ? $(this).html($.shuffle(items))
+            : this;
+        });
+      }
+
+      $.shuffle = function(arr) {
+        for(
+          var j, x, i = arr.length; i;
+          j = parseInt(Math.random() * i),
+          x = arr[--i], arr[i] = arr[j], arr[j] = x
+        );
+        return arr;
+      }
+    })(jQuery);
+
+
+    $(function() {
+        // Try all categories
+        categories = $.shuffle(categories);
+        for (i = 0; i < categories.length && !(found_animals);i++){
+            load_adoptable_animals(categories[i]);
+        }
+    });
+
+</script>
+{% endblock extra-head %}
+{% block page_title_frame %}{% endblock page_title_frame %}
+{% block section_nav %}
+<h2>Adoptions</h2>
+<ul>
+    <li><a href="/adopt/dogs/">Adoptable Dogs</a></li>
+    <li><a href="/adopt/cats/">Adoptable Cats</a></li>
+    <li><a href="/adopt/other/">Other Adoptable Animals</a></li>
+</ul>
+
+<h3>Information</h3>
+
+<ul>
+    <li><a href="#tips">Adoption Tips</a></li>
+    <li><a href="#hours">Adoption Hours</a></li>
+    <li><a href="#process">Adoption Process</a></li>
+    <li><a href="#prices">Adoption Prices</a></li>
+    <li><a href="#stories">Adoption Stories</a></li>
+</ul>
+
+<h4>Sponsors</h4>
+<div >
+<a href="http://hubercars.com/site">
+<img src="http://nhs.convio.net/images/content/pagebuilder/12581.jpg" />
+</a>
+<p>A proud sponsor of the NHS Adoption Program
+</div>
+{% endblock section_nav %}
+
+
+{% block page_content %}
+
+<div id="adoptable_animals">
+<h1 id="header_adopt">Adopt</h1>
+<div class="grid_8 push_1 alpha">
+<ul id="adoptable_carousel" class="jcarousel-skin-nhs-adoptions">
+    <!-- TODO: Graceful fallback -->
+</ul>
+    <ul class="no-style">
+        <li><a href="/adopt/dogs">Adopt a Dog</a></li>
+        <li><a href="/adopt/cats">Adopt a Cat</a></li>
+        <li><a href="/adopt/other">Adopt an Other Animal</a></li>
+    </ul>
+</div>
+
+</div>
+
+<div class="clear"></div>
+
+{{ flatpage.content|safe }}
+{% endblock page_content %}

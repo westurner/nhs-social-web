@@ -43,8 +43,13 @@ def _to_json(s,indent=0):
 def _load_html(path):
     return unicode(''.join(open(path).readlines()),errors='replace')
 
+def tokenize(str_,delim=' '):
+    return filter(bool, map(lambda x: x.strip(), str_.split(delim)))
+
 def parse_time_phrase(s):
-    n,unit = map(lambda x: x.strip(), s.split(' '))
+    ret = tokenize(s)
+    print ret
+    n,unit = ret
     n = int(n)
     if unit.startswith("year"):
         return n
@@ -82,7 +87,9 @@ def parse_petharbor_age(s):
 
     # compound    
     if ',' in s:
-        return reduce(lambda x,y: x + parse_time_phrase(y), s.split(', '), 0)
+        return reduce(lambda x,y: x + parse_time_phrase(y), tokenize(s,', '), 0)
+    if 'and' in s:
+        return reduce(lambda x,y: x + parse_time_phrase(y), tokenize(s,'and'), 0)
 
     return parse_time_phrase(s)
 
@@ -103,7 +110,10 @@ def parse_desc_age(s):
     s = s.strip().lower()
     sp = s.split('shelter staff think')
     if len(sp) == 2:
-        age = sp[1].split('is about')[1].split('.')[0]
+        try:
+            age = sp[1].split('is about')[1].split('.')[0]
+        except:
+            age = sp[1].split('is  about')[1].split('.')[0]
         return sp[0], float(parse_petharbor_age(age.strip()))
         #"Shelter staff think%s" % sp[1]
 
@@ -173,7 +183,7 @@ def parse_petharbor_profile(contents):
     try:
         before_thank_you = after_id.split('Thank you for')[0]
     except:
-        before_thanks_you = after_id.split('If you have lost a pet')
+        before_thank_you = after_id.split('If you have lost a pet')
     code, desc_age = before_thank_you.split('<BR><BR></font>')
     logging.debug("desc_age: '%s'" % desc_age)
     desc, age = parse_desc_age(desc_age.strip('<BR>'))
@@ -181,7 +191,7 @@ def parse_petharbor_profile(contents):
     petharbor_last_updated = contents.split('old and may not represent')[0].split('This information is ')[1].strip()
     petharbor_img_url = "http://petharbor.com/get_image.asp%s" % contents.split('get_image.asp')[1].split('"')[0]
     return {'code':code,
-            'description':desc.strip(),
+            'description':desc.strip().capitalize(),
             'age':age,
             'perharbor_last_updated':petharbor_last_updated,
             'petharbor_img_url':petharbor_img_url,
