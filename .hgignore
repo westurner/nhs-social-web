@@ -3,6 +3,7 @@ syntax:glob
 *.pyc
 *.swp
 *.pyo
+.src/
 ipython_log.py
 nbproject
 .project

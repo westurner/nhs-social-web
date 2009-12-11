@@ -13,7 +13,7 @@ var tb_pathToImage = "/media/nebhs/img/loadingAnimation.gif";
 $(document).ready(function(){   
 	tb_init('a.thickbox, area.thickbox, input.thickbox');//pass where to apply thickbox
 	imgLoader = new Image();// preload image
-	imgLoader.src = tb_pathToImage;
+	/*imgLoader.src = tb_pathToImage;*/
 });
 
 //add thickbox to href & area elements that have a class of .thickbox

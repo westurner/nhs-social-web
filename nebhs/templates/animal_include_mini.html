@@ -10,5 +10,5 @@
 <a rel="permalink" href="{{ object.get_absolute_url }}">{{ object.breed }} &mdash; {{ object.name|capfirst }}</a>
 
 <p>Main Color: <strong> {{ object.main_color }}</strong><br/>{{ object.gender_str|capfirst }}{% if object.age %}'s <strong>{{ object.age_str }} young</strong> and{% endif %} was brought to the shelter on {{ object.brought_to_shelter|date:"F jS, Y" }}</p>
-{#{% if object.description %}<p class="description pullquote">{{ object.description }}</p>{% endif %}#}
+
 </div>

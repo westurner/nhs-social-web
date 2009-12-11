@@ -1,14 +1,12 @@
 {% extends "base.html" %}
+{% load webdesign %}
+{% block title %}Join The Humane Race{% endblock %}
 {% block extra-head %}
 
 <script type="text/javascript">
     /// TODO: Graceful fallback
     /// Add rounded corners
     
-    $(function() {
-        $("div.rounded").corner("10px");
-    });
-
 
     /// Setup carousel
     function maincarousel_initCallback(carousel)
@@ -45,14 +43,16 @@
 
     
     $(document).ready(function() {
+        $("div.rounded").corner("20px");
+        $("div.jcarousel-skin-nhs-main div.jcarousel-container li div.carousel_item img" ).corner("20px");
         $("#twitter").getTwitter({
             userName: "nehumanesociety",
-            numTweets: 5,
+            numTweets: 6,
             loaderText: "Loading tweets...",
             slideIn: true,
             showHeading: false,
             headingText: "Latest Tweets",
-            showProfileLink: true
+            showProfileLink: false,
         });
     });
 
@@ -65,25 +65,29 @@
 <div class="home_row_1">
    <div class="grid_4 alpha">
         <div class="col_right">
-            <div class="greenbox">
-            <h3>Help Us</h3>
-            <dl>
-                <dt<a href="#Donate">Donate Here</a></dt>
+            <div class="greenbox" >
+            <h4>Join the Humane Race</h4>
+            <dl style="font-size: 1.4em">
                 <dt><a href="/adopt/">Adopt an Animal</a></dt>
-                <dt><a href="#member">Become a Member</a></dt>
+                <dt<a href="#Donate">Donate Today</a></dt>
+                <!--<dt><a href="#member">Become a Member</a></dt>-->
                 <dt><a href="#volunteer">Volunteer</a></dt>
+                <dt><a href="#foster">Foster</a><dt>
             </dl>
             </div>
-            
-            <h3>Join Our Mailing List</h3>
-            <form id="mailing-list" name="mailing-list" method="POST" action=".">
-                <input id="email-address" class="clearonfocus {initial:'Your Email Address'}" name="email-address" type="text"></input>
-                <input type="submit" value="Go"></input>
-            </form>
+
+            <div >
+                <h5>New Membership Program!</h5>
+                <img src="{{ MEDIA_URL }}nebhs/img/t-shirt-100x141.jpg" width="100px" height="141px" style="margin-left:49px"></img>
+                <p>Join, save at area businesses for $24, and get a FREE t-shirt.
+                Click <a href="#MembershipProgram">here</a> to find out how</p>
+            </div>
+
+
         </div>
     </div>
-    <div class="grid_10 omega">
-        <div class="carousel_content">
+    <div class="grid_10 push_1">
+        <div class="carousel_content rounded">
             <ul id="main_carousel" class="jcarousel-skin-nhs-main">
                 <!-- TODO: Graceful fallback -->
                 <li>
@@ -133,32 +137,112 @@
 <div class="clear"></div>
 
 
-<div class="home_row_2">
+<div class="home_row_middle" style="padding:30px 0;">
 
-
-    <div class="grid_4 alpha">
-        <div class="content_box rounded">
-            <h1>Our Services</h1>
+    <div class="grid_5 alpha">
+        <div class="">
+            
+            <p style="margin-bottom:4px">
+                Join our mailing list for the latest on <br/>
+                <strong>events</strong>,
+                <strong>specials</strong>, and <strong>how you can help</strong></p>
+            <form id="mailing-list" class="bigform" name="mailing-list" method="POST" action=".">
+                <input id="email-address" class="clearonfocus {initial:'Your Email Address'}" name="email-address" type="text"></input>
+                <input type="submit" value="Go"></input>
+            </form>
         </div>
     </div>
+
+    <div class="grid_10 omega">
+        <div class="sbuttons_64" style="padding-top:12px">
+            <a href="http://friendfeed.com/nehumanesociety" id="button_friendfeed_64" title="FriendFeed"></a>
+            <a href="http://twitter.com/nehumanesociety" id="button_twitter_64" title="Twitter"></a>
+            <a href="http://www.facebook.com/NebraskaHumaneSociety" id="button_facebook_64" title="Facebook"></a>
+            <a href="http://www.flickr.com/photos/nehumanesociety" id="button_flickr_64" title="Flickr"></a>
+            <a href="http://www.youtube.com/user/nehumanesociety" id="button_youtube_64" title="YouTube"></a>
+            <a href="http://linkedin.com" id="button_linkedin_64" title="LinkedIn"></a>
+            <a href="https://secure3.convio.net/nhs/site/Donation2?idb=1082884796&df_id=1720&1720.donation=form1" id="button_heart_64" title="Donate"></a>
+        </div>
+    </div>
+</div>
+
+<div class="clear"></div>
+<div class="home_row_3 rounded alpha" style="margin:0 -10px">
     <div class="grid_4">
         <div class="content_box rounded">
-
-
-        </div>
-    </div>
-    <div class="grid_4">
-        <div class="content_box rounded">
-            <h1>Events</h1>
-            <p>Text Text Text<p>
-        </div>
-    </div>
-
-    <div class="grid_4 omega">
-        <div class="content_box rounded">
-            <h2><a alt="Follow us on Twitter" href="http://twitter.com/nehumanesociety">@nehumanesociety</a></h2>
+            <h1>Twitter</h1>
             <div id="twitter"></div>
+            <strong>Follow us on Twitter:</strong>
+            <h2><a alt="Follow us on Twitter" href="http://twitter.com/nehumanesociety">@nehumanesociety</a></h2>
         </div>
     </div>
+
+    <div class="grid_4">
+        <div class="content_box rounded services_box">
+            <h1>Our Services</h1>
+            <dl>
+            <dt>Bone Jour</dt>
+            <dd>{% lorem 20 w random %}</dd>
+            <dt>Manners N' More</dt>
+            <dd>{% lorem 20 w random %}</dd>
+            <dt>Three</dt>
+            <dd>{% lorem 20 w random %}</dd>
+            </dl>
+        </div>
+    </div>
+    <div class="grid_4">
+        <div class="content_box rounded services_box">
+            <h1>Lorem Ipsum</h1>
+            {% lorem %}
+        </div>
+    </div>
+    <div class="grid_4">
+        <div class="content_box rounded">
+            <h1>(402) 444-7800</h1>
+            <table id="phone_extensions">
+                <tbody>
+                <tr><td class="dpt"><a href="/adopt/">Adoptions</a></td><td class="num">206</td></tr>
+                <tr><td class="dpt"><a href="#link">Animal Control</a></td><td class="num">0</td></tr>
+                <tr><td class="dpt"><a href="#link">Behavior Helpline</a></td><td class="num">221</td></tr>
+                <tr><td class="dpt"><a href="#link">Bone Jour Dog Day Care</a></td><td class="num">503</td></tr>
+                <tr><td class="dpt"><a href="#link">Camp Kindness</a></td><td class="num">220</td></tr>
+                <tr><td class="dpt"><a href="#link">Concerns/Rabies</a></td><td class="num">213</td></tr>
+                <tr><td class="dpt"><a href="#link">Donations</a></td><td class="num">240</td></tr>
+                <tr><td class="dpt"><a href="#link">Foster Care</a></td><td class="num">264</td></tr>
+                <tr><td class="dpt"><a href="#link">Foundation</a></td><td class="num">235</td></tr>
+                <tr><td class="dpt"><a href="#link">Friends Forever</a></td><td class="num">260</td></tr>
+                <tr><td class="dpt"><a href="#link">Gift Shop</a></td><td class="num">250</td></tr>
+                <tr><td class="dpt"><a href="#link">Lost & Found</a></td><td class="num">210</td></tr>
+                <tr><td class="dpt"><a href="#link">Manners 'N More</a></td><td class="num">702</td></tr>
+                <tr><td class="dpt"><a href="#link">Media</a></td><td class="num">270</td></tr>
+                <tr><td class="dpt"><a href="#link">Obedience Classes</a></td><td class="num">702</td></tr>
+                <tr><td class="dpt"><a href="#link">Pet Supplies</a></td><td class="num">250</td></tr>
+                <tr><td class="dpt"><a href="#link">Rainbow Bridge</a></td><td class="num">231</td></tr>
+                <tr><td class="dpt"><a href="#link">Speakers Bureau</a></td><td class="num">270</td></tr>
+                <tr><td class="dpt"><a href="#link">Special Events</a></td><td class="num">273</td></tr>
+                <tr><td class="dpt"><a href="#link">Tour Reservations</a></td><td class="num">260</td></tr>
+                <tr><td class="dpt"><a href="#link">Volunteering</a></td><td class="num">222</td></tr>
+                </tbody>
+            </table>
+
+            <!-- TODO: microformat -->
+            <strong>Fax</strong>
+            <p>(402) 546-1476</p>
+            <strong>Licensing</strong>
+            <p>(402) 444-6716</p>
+            <strong>Street Address</strong>
+            <p>
+                Nebraska Humane Society<br/>
+                8929 Fort Street<br/>
+                Omaha, Nebraska<br/>
+                68134
+            </p>
+            <a href="http://maps.google.com/maps?q=Nebraska+Humane+Society,+8929+Fort+Street,+Omaha,+Nebraska,+68134&hl=en&cd=1&ei=2TweS9DbHImmM4bD_ZgE&sig2=zQkKNpXJc5f03-S4QuRSUw&sll=41.305196,-96.050431&sspn=0.006295,0.006295&ie=UTF8&view=map&cid=6386325364320754876&hq=Nebraska+Humane+Society,+8929+Fort+Street,+Omaha,+Nebraska,+68134&hnear=&ll=41.305658,-96.050431&spn=0.006359,0.013196&t=h&z=17&iwloc=A&iwstate1=dir" title="Directions to the Nebraska Humane Society" target="_blank">Get Directions</a>
+
+
+        </div>
+    </div>
+
+
 </div>
 {% endblock content %}

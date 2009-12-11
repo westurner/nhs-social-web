@@ -1,8 +1,7 @@
-<!DOCTYPE html 
-    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"> 
 
 <html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:fb="http://www.facebook.com/2008/fbml"
       dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}"
       xml:lang="{% firstof LANGUAGE_CODE 'en' %}"
       lang="{% firstof LANGUAGE_CODE 'en' %}">
@@ -22,9 +21,6 @@
         <script type="text/javascript">
             $(document).ready(function() {
                 $('.clearonfocus').defaultValue();
-                
-                hand_bkg = $('<div id="hand_bkg" class="hand_bkg"></div>');
-                hand_bkg.appendTo($('body'));
             });
         </script>
 
@@ -33,6 +29,7 @@
     </head>
 
     <body class="{% block body-class %}{% endblock %}" id="{% block body-id %}{% endblock %}">
+        <!--<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php" type="text/javascript"></script>-->
         <div class="container_16">
             {% block header %}
 
@@ -43,13 +40,13 @@
 
                 <div id="shortmenu" class="grid_4 prefix_10">
                     <!---<a href="/">Home</a>-->
-                    <a href="#about">About</a>
-                    <a href="#contact">Contact</a>
+                    <a href="#about">About NHS</a>
+                    <a href="#contact">Contact Us</a>
                     <a href="#login">Login</a>
 
                 </div>
                 <div class="clear"></div>
-                <div class="grid_10 push_3" id="menu" >
+                <div class="grid_11 push_3" id="menu" >
                     {% block mainmenu %}
                     <!--<a href="/"><img src="{{ MEDIA_URL }}global/logo.png" alt="" /></a>-->
                     <ul>
@@ -59,10 +56,10 @@
                         <li><a href="/programs/">Programs</a></li>
                         <li><a href="#laws">Laws</a></li>
                         <li><a href="#wildlife">Wildlife</a></li>
-                        <li><a href="#pet-shop">Pet Shop</a></li>
+                        <li><a href="#pet-shop">Shop</a></li>
 
-                        <li><form id="search" action="POST" action="#search">
-                            <input id="search_form" class="clearonfocus {initial:'Search...'}" name="query"></input>
+                        <li><form id="search_form" class="bigform" action="POST" action="#search">
+                            <input id="q" class="clearonfocus {initial:'Search...'}" name="query"></input>
                         </form></li>
 
                     <!--
@@ -91,35 +88,23 @@
                 {% block content %}{% endblock %}
             </div>
             <div class="clear"></div>
-            <div id="footer" class="grid_16" style="margin-top:5em">
+            <div id="footer" class="grid_16 hand_bkg" style="margin-top:5em">
                 <div id="site_actions">
-
-                    <a href="#print-this">Print This Page</a>
-                    <a style="text-align:center" class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}">
-                    <img src="http://static.addtoany.com/buttons/favicon.png" width="16" height="16" border="0" alt="Share/Bookmark"/>Share This Page</a>
+                    Save a life. <a style="text-align:center" class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}">
+                    <img src="http://static.addtoany.com/buttons/favicon.png" width="16" height="16" border="0" alt="Share/Bookmark"/>here</a>
                     <script type="text/javascript">
                         a2a_linkname="{{ page_title }}";
                         a2a_linkurl=window.location;
-                        a2a_color_main="D7E5ED";
-                        a2a_color_border="AECADB";
+                        a2a_color_main="E7E5ED";
+                        a2a_color_border="a7a5ad";
                         a2a_color_link_text="333333";
-                        a2a_color_link_text_hover="333333";
+                        a2a_color_link_text_hover="7777AA";
                     </script>
                     <script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script>
-                    <a href="#email-this">Email This Page</a>
+                </div>
 
-                </div>
-                <div class="contact_information">
-                    <span>Nebraska Humane Society</span><br/>
-                    <span> 8929 Fort Street | Omaha, Nebraska 68134</span><br/>
-                    <span>T: (402) 444-7800 | F: (402) 546-1476 </span>
-                </div>
-                <div>
-                    <a href="#home">Home</a>
-                    <a href="#contact-us">Contact Us</a>
-                    <a href="#employment-opportunities">Employment Opportunities</a>
-                    <a href="#privacy-policy">Privacy Policy</a>
-                </div>
+                {% include "_footer.html" %}
+
 
 
                 <div id="admin_links">
@@ -136,5 +121,7 @@
             </div>
         </div>
         <div id="donate_fixed" onclick="javascript:window.open('https://secure3.convio.net/nhs/site/Donation2?idb=1082884796&df_id=1720&1720.donation=form1')"></div>
+        <!--script type="text/javascript">  FB_RequireFeatures(["XFBML"], function(){ FB.Facebook.init("df072c4e48a61560b85aae7248d2132a", "/facebook/xd_receiver.htm"); }); </script>-->
+      
     </body>
 </html>
