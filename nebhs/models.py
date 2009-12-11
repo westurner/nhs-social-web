@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from django.db.models import permalink,signals
+from django.db.models import permalink, signals
 from django.template.defaultfilters import pluralize
 from google.appengine.ext import db
 from google.appengine.api import images, urlfetch
@@ -112,15 +112,34 @@ class Animal(db.Model):
     meet_your_match = db.StringProperty()
 
     def __str__(self):
+        return '%s -- %s' % (self.code,self.name)
+
+    def __repr__(self):
         return '[%s] %s' % (self.code,self.name)
+
+    def __unicode__(self):
+        return '%s -- %s' % (self.code,self.name)
 
     @permalink
     def get_absolute_url(self):
-        return ('nebhs.views.show_animal_by_name', (), {'category':self.category,
+        return ('nebhs.views.show_animal_by_name', (), {
+            'category':self.category,
             'name':urllib.quote_plus(self.name),
             'year':self.brought_to_shelter.year,
             'month':self.brought_to_shelter.month,
             'day':self.brought_to_shelter.day})
+
+    @permalink
+    def get_facebook_url(self):
+        return ('nebhs.views.facebook_show_animal_by_name', (), {
+            'category':self.category,
+            'name':urllib.quote_plus(self.name),
+            'year':self.brought_to_shelter.year,
+            'month':self.brought_to_shelter.month,
+            'day':self.brought_to_shelter.day})
+
+    def quoted_name(self):
+        return urllib.quote_plus(self.name)
 
     def age_str(self):
         total = self.age * 12

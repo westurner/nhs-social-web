@@ -15,7 +15,7 @@
 .twitted p.preLoader {
 	margin: 0;
 	padding: 1em 1em 1em 3em;
-	background: transparent url("loader.gif") 1em center no-repeat;
+	/* background: transparent url("loader.gif") 1em center no-repeat; */
 	/* generate your own loader gif: http://www.ajaxload.info */
 }
 

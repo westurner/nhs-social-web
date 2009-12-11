@@ -1,0 +1,107 @@
+{% extends "fb/base.html" %}
+{% load facebook %}
+{% block title %}Adoptable Dogs - {{ object.name }}{% endblock title %}
+{% block extra_css %}
+
+
+#photoborder {
+    height: 300px;
+}
+#photoborder #animalphoto {
+    background-color:#FFFFFF;
+    border:1px solid #DDDDDD;
+    margin:10px 0;
+}
+
+
+dd { margin-left: 0; }
+
+div.animal_details { text-align: left; ; }
+div.animal_details h1 { font-size: 2em; }
+
+{% endblock extra_css %}
+{% block page_content %}
+
+
+<div id="photoborder" >
+    <div style="width:360px; float:left; margin:12px 32px">
+    {% if object.photo %}
+        <img id="animalphoto" src="{% absurl image_serve_scaled image_key=object.photo.key extension='jpg' width=320 height=320 %}" />
+    {% else %}
+        <p style="text-align: center; width: 100%; font-size: 1.2em">We don't have a photo for <strong>{{ object.name|capfirst }}</strong>, yet</span>
+    {% endif %}
+    </div>
+    <div style="width:320px; margin:24px 32px 32px 320px;">
+
+        <div class="animal_details" style="text-align:left">
+            <h1><a href="{% fbabsurl fb-show-animal-by-name category=object.category  year=object.brought_to_shelter.year month=object.brought_to_shelter.month day=object.brought_to_shelter.day name=object.quoted_name %}">{{ object.name|capfirst }}</a></h1>
+            <dl style="list-style-type: none">
+                <dt>Breed:</dt><dd>{{ object.breed }}</dd>
+                <dt>Main Color: </dt><dd>{{ object.main_color }}</dd>
+                <dt>Age: </dt><dd>{{ object.age_str }}</dd>
+                <dt>Gender: </dt><dd>{{ object.gender }}</dd>
+                <dt>Spayed or Neutered:</dt><dd>{{ object.spayed_or_neutered }}</dd>
+                <dt>Since:</dt><dd>{{ object.brought_to_shelter }}</dd>
+                {% if object.checked %}<span style="font-style:italic; color: #aaa;"><a href="{{ object.petharbor_url|default:"http://petharbor.com" }}">{{ object.last_checked|default_if_none:"Not Sure" }}</a></span>{% endif %}
+            </dl>
+        </div>
+
+    </div>
+
+
+</div>
+
+<div id="photoinfo">
+
+    <div id="photocomment" class="lfloat">
+        
+    <fb:live-stream event_app_id="{{ FB_APPLICATION_ID }}" xid="{{ object.code }}" width="400" height="500"></fb:live-stream>
+
+    </div>
+
+    <div id="rightcolumn" class="rfloat">
+        <div class="share_and_hide clearfix s_and_h_big">
+            <fb:share-button class="meta" >
+                <meta name="medium" content="mult"/>
+                <meta name="title" content="{{ page_title }}"/>
+                <meta name="description" content="{{ object.description }}"/>
+                <link rel="image_src" href="{% absurl image_serve_scaled image_key=object.photo.key extension='jpg' width=604 height=604 %}"/>
+                <link rel="target_url" href="{% fbabsurl fb-show-animal-by-name category=object.category  year=object.brought_to_shelter.year month=object.brought_to_shelter.month day=object.brought_to_shelter.day name=object.name %}"/>
+            </fb:share-button>
+        </div>
+        <div id="photoactions">
+            <div class="clearfix">
+
+                <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}%20-%20Nebraska%20Humane%20Society&amp;linkurl={% fbabsurl fb-show-animal-by-name category=object.category  year=object.brought_to_shelter.year month=object.brought_to_shelter.month day=object.brought_to_shelter.day name=object.quoted_name %}"><img style="padding-right:4px" src="http://static.addtoany.com/buttons/favicon.png" width="16" height="16" border="0" alt="Share/Bookmark"/>Share</a> <a href="{% fbabsurl fb-show-animal-by-name category=object.category  year=object.brought_to_shelter.year month=object.brought_to_shelter.month day=object.brought_to_shelter.day name=object.name %}">
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div id="public_link_photo">
+
+
+</div>
+
+<div class="clear"></div>
+
+<div>
+        <div class="youcanhelp">
+        <h2 style="margin-bottom: 0.5em">Help find me a good home?</h2>
+        <ol>
+
+            <li><a class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}%20-%20Nebraska%20Humane%20Society&amp;linkurl={% fbabsurl fb-show-animal-by-name category=object.category  year=object.brought_to_shelter.year month=object.brought_to_shelter.month day=object.brought_to_shelter.day name=object.quoted_name %}"><img style="padding-right:4px" src="http://static.addtoany.com/buttons/favicon.png" width="16" height="16" border="0" alt="Share/Bookmark"/>Share</a> <a href="{% fbabsurl fb-show-animal-by-name category=object.category  year=object.brought_to_shelter.year month=object.brought_to_shelter.month day=object.brought_to_shelter.day name=object.name %}">my page</a> with good people
+            </li>
+
+            <li><strong>Adopt me Today</strong><a class="redasterisk" href="#">*</a></li>
+
+            <li><strong>Donate</strong> <a href="#donate">here</a></li>
+        </ol>
+
+    </div>
+</div>
+
+<div class="clear"></div>
+    
+{% endblock %}

@@ -1,0 +1,74 @@
+{% load facebook %}
+ <link rel="stylesheet" type="text/css"  media="screen, projection" href="{{ MEDIA_URL }}combined-{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}.css" />
+<style type="text/css">
+body {
+    font-family:"lucida grande",tahoma,verdana,arial,sans-serif !important;
+    font-size:11px;
+    color: #333333; /* don't use just black, it won't look good */
+}
+h1, h2, h3, h4, h5{font-size:13px;color:#333;margin:0px;padding:0px;}
+h1{font-size:14px;}
+h4, h5{font-size:11px;}
+
+{% include "fb/fb.css" %}
+{% block extra_css %}{% endblock extra_css %}
+
+div.sbuttons_32 {
+    width: 320px;
+    margin: 4px auto;
+    height: 32px;
+}
+
+div.sbuttons_32 a {
+    width:32px;
+    height:32px;
+    display:block;
+    background-repeat:no-repeat;
+    float:left;
+    margin:0 3px;
+    border: 0 !important;
+    padding: 0 !important;
+}
+
+#button_twitter_32 {
+    background: url('http://nhs-adoptions.appspot.com/media/1/nebhs/img/social/twitter_32.png') no-repeat;
+}
+
+#button_facebook_32 {
+    background: url('http://nhs-adoptions.appspot.com/media/1/nebhs/img/social/facebook_32.png') no-repeat;
+}
+
+#button_flickr_32 {
+    background: url('http://nhs-adoptions.appspot.com/media/1/nebhs/img/social/flickr_32.png') no-repeat;
+}
+
+#button_youtube_32 {
+    background: url('http://nhs-adoptions.appspot.com/media/1/nebhs/img/social/youtube_32.png') no-repeat;
+}
+
+#button_linkedin_32 {
+    background: url('http://nhs-adoptions.appspot.com/media/1/nebhs/img/social/linkedin_32.png') no-repeat;
+}
+
+#button_heart_32 {
+    background: url('http://nhs-adoptions.appspot.com/media/1/nebhs/img/social/heart_32.png') no-repeat;
+}
+
+#button_friendfeed_32 {
+    background: url('http://nhs-adoptions.appspot.com/media/1/nebhs/img/social/friendfeed_32.png') no-repeat;
+}
+</style>
+
+<h1>{{ page_title }}</h1>
+{% block tabs %}
+    <fb:tabs>
+        <fb:tab-item href='{% fburl '/dogs/' %}' title='Dogs' {% ifequal category 'dogs' %}selected='true'{% endifequal %}/>
+        <fb:tab-item href='{% fburl '/cats/' %}' title='Cats' {% ifequal category 'cats' %}selected='true'{% endifequal %}/>
+    </fb:tabs>
+{% endblock tabs %}
+
+<div id="content">
+{% block page_content %}{% endblock page_content %}
+</div>
+
+{% include "_social_media.html" %}

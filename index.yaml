@@ -53,3 +53,11 @@ indexes:
   - name: status
   - name: last_checked
     direction: desc
+
+- kind: nebhs_animal
+  properties:
+  - name: status
+  - name: last_checked
+    direction: desc
+  - name: brought_to_shelter
+    direction: desc

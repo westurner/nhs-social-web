@@ -3,7 +3,7 @@
 <div class="grid_7 alpha">
     <div class="animal_photo">
     {% if object.photo %}
-        <img src="{% url image_serve_scaled image_key=object.photo.key extension='png' width=400 height=400 %}" />
+        <img src="{% url image_serve_scaled image_key=object.photo.key extension='jpg' width=400 height=400 %}" />
     {% else %}
         <p style="text-align: center; width: 100%; font-size: 1.2em">We don't have a photo for <strong>{{ object.name|capfirst }}</strong>, yet</span>
     {% endif %}
@@ -12,10 +12,10 @@
     <div class="help">
 
     <div class="youcanhelp">
-        <h3 style="margin-bottom: 0.5em">Can you help find me a good home?</h3>
+        <h3 style="margin-bottom: 0.5em">Help find me a good home?</h3>
         <ol>
             <li>
-                <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}"><img src="http://static.addtoany.com/buttons/favicon.png" width="16" height="16" border="0" alt="Share/Bookmark"/>Share</a><script type="text/javascript">a2a_linkname="{{ page_title }}";a2a_linkurl=window.location;a2a_color_main="D7E5ED";a2a_color_border="AECADB";a2a_color_link_text="333333";a2a_color_link_text_hover="333333";</script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script> <span class="padding-bottom:8px"> <a href="{{ object.get_absolute_url }}">my page</a> with good people</span>
+                <a class="a2a_dd" href="http://www.addtoany.com/share_save?linkname={{ page_title|escape }}%20-%20Nebraska%20Humane%20Society&amp;linkurl=http://{{ request.META.HTTP_HOST }}{{ object.get_absolute_url|escape }}"><img src="http://static.addtoany.com/buttons/favicon.png" width="16" height="16" border="0" alt="Share/Bookmark"/>Share</a><script type="text/javascript">a2a_linkname="{{ page_title }}";a2a_linkurl=window.location;a2a_color_main="D7E5ED";a2a_color_border="AECADB";a2a_color_link_text="333333";a2a_color_link_text_hover="333333";</script><script type="text/javascript" src="http://static.addtoany.com/menu/page.js"></script> <span class="padding-bottom:8px"> <a href="{{ object.get_absolute_url }}">my page</a> with good people</span>
             </li>
 
             <li>
@@ -28,7 +28,7 @@
             <li>
                 Add a positive <strong>comment</strong> below
             </li>
-        </ul>
+        </ol>
         
     </div>
   
@@ -49,7 +49,7 @@
         <dt>Spayed or Neutered:</dt><dd>{{ object.spayed_or_neutered }}</dd>
         <dt>Since:</dt><dd>{{ object.brought_to_shelter }}</dd>
         {% if object.checked %}<span style="font-style:italic; color: #aaa;"><a href="{{ object.petharbor_url|default:"http://petharbor.com" }}">{{ object.last_checked|default_if_none:"Not Sure" }}</a></span>{% endif %}
-    </ul>
+    </dl>
     </div>
 
       <div style="width:100px; margin: 1em auto 0 auto"><img src="{{ MEDIA_URL }}nebhs/img/arrow_up_blue.png" width="100px""/></div>
@@ -67,12 +67,14 @@
     {% block comments %}
     {% if debug %}
     <script type="text/javascript">
-    var disqus_developer = 1; var disqus_url = "http://{{ request.META.HTTP_HOST }}/";
+    var disqus_developer = 1;
+    var disqus_url = "http://{{ request.META.HTTP_HOST }}/";
     //var disqus_title
     //var disquis_message
     //var disqus_def_name
     </script>
     {% endif %}
-    <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/nhsadoptions/embed.js"></script><noscript><a href="http://disqus.com/forums/nhsadoptions/?url=ref">View the discussion thread.</a></noscript><!--<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>-->
+    <div id="disqus_thread"></div><script type="text/javascript" src="http://disqus.com/forums/nhsadoptions/embed.js"></script>
+    <noscript><a href="http://disqus.com/forums/nhsadoptions/?url=ref">View the discussion thread.</a></noscript><!--<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>-->
     {% endblock comments %}
 </div>

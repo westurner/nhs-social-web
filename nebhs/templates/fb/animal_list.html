@@ -1,0 +1,65 @@
+{% extends "fb/base.html" %}
+{% load facebook %}
+{% block title %}{{ page_title }}{% endblock %}
+{% block extra_css %}
+
+div.animal_mini { height: 130px; padding: 18px; }
+div.animal_desc_mini { margin-top:24px; }
+div.animal_mini img { border: 1px solid #ddd; }
+
+.tabs {
+    border-bottom: 0;
+    padding: 10px 0;
+    font-size: 1.4em;
+    }
+
+{% endblock extra_css %}
+{% block tabs %}
+<fb:tabs>
+ <fb:tab-item href='{% fburl '/dogs/' %}' title='Dogs' {% ifequal category 'dogs' %}selected='true'{% endifequal %}/>
+ <fb:tab-item href='{% fburl '/cats/' %}' title='Cats' {% ifequal category 'cats' %}selected='true'{% endifequal %}/>
+</fb:tabs>
+            {% endblock tabs %}
+            {% block page_content %}
+            <div class="grid_10 alpha">
+                <div class="clear"></div>
+                {% if object_list %}
+
+                <div id="album_container">
+                    <div class="UIPhotoGrid_Container UIPhotoGrid_DefaultPadding">
+                        <ul class="animal_list">
+                            {% for object in object_list %}
+                            <div class="animal_mini">
+                                <div class="grid_3 alpha">
+                                    <a rel="permalink" href="{% fbabsurl fb-show-animal-by-name category=object.category  year=object.brought_to_shelter.year month=object.brought_to_shelter.month day=object.brought_to_shelter.day name=object.quoted_name %}">
+                                        <img src="{% absurl image_serve_scaled image_key=object.photo.key extension='jpg' width=160 height=160 %}"/>
+                                    </a>
+                                </div>
+                                <div class="grid_7 animal_desc_mini omega">
+                                    <h1><a rel="permalink" href="{% fbabsurl fb-show-animal-by-name category=object.category  year=object.brought_to_shelter.year month=object.brought_to_shelter.month day=object.brought_to_shelter.day name=object.quoted_name %}">{{ object.breed }} &mdash; {{ object.name|capfirst }}</a></h1>
+                                    <p>Main Color: <strong> {{ object.main_color }}</strong><br/>{{ object.gender_str|capfirst }}{% if object.age %}'s <strong>{{ object.age_str }} young</strong> and{% endif %} was brought to the shelter on {{ object.brought_to_shelter|date:"F jS, Y" }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                            <div class="clearfix"></div>
+                        </ul>
+                    </div>
+                </div>
+
+                {% else %}
+                <div class="grid_10 alpha"
+                     <p class="none_found">We currently don't have any {{ page_title|lower }}. Check back soon!</p>
+                </div>
+
+                {% endif %}
+
+                <div class="clear"></div>
+                <div class="pagers" style="font-size: 2.0em">
+                    {% if has_previous %}
+                    <a href="{% fbabsurl nebhs.views.facebook_list_animals category=category %}?page={{ previous }}">&lt;-previous</a>
+                    {% endif %}
+                    {% if has_next %}
+                    <a href="{% fbabsurl nebhs.views.facebook_list_animals category=category %}?page={{ next }}">next-&gt;</a>
+                    {% endif %}
+                </div>
+                {% endblock %}

@@ -11,7 +11,11 @@
 {% endblock %}
 
 {% block branding %}
-<h1 id="site-name">{% trans 'Django administration' %}</h1>
+
+<div class="grid_2" id="logo">
+<a name="top" alt="Nebraska Humane Society" href="/"><img src="{{ MEDIA_URL }}nebhs/img/logo-100x91.png" width="100px" height="91px" alt="The Nebraska Humane Society" /></a>
+</div>
+<h1>{% trans 'NHS Admin' %}</h1>
 {% endblock %}
 
 {% block nav-global %}{% endblock %}

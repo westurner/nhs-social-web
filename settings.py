@@ -22,10 +22,12 @@ COMBINE_MEDIA = {
     ),
 }
 
+PRODUCTION = False
 # Change your email settings
 if on_production_server:
     DEFAULT_FROM_EMAIL = 'noreply@wrd.nu'
     SERVER_EMAIL = DEFAULT_FROM_EMAIL
+    PRODUCTION = True
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '00ccl12x2300:31---0234--2we4e3,234'
@@ -67,6 +69,7 @@ MIDDLEWARE_CLASSES = (
     'ragendja.sites.dynamicsite.DynamicSiteIDMiddleware',
     'django.contrib.flatpages.middleware.FlatpageFallbackMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'facebook.djangofb.FacebookMiddleware',
 )
 
 # Google authentication
@@ -148,6 +151,10 @@ INTERNAL_IPS = [
 '127.0.0.1',
 ]
 
+
 ROOT_URLCONF='urls'
+
+from local_settings import *
+
 
 from ragendja.settings_post import *

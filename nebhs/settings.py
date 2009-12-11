@@ -29,4 +29,4 @@ settings.add_app_media('combined-%(LANGUAGE_DIR)s.css',
 )
 
 # TODO
-# DEFAULT_IMAGE_UNAVAILABLE = "/media/images/yea"
+DEFAULT_IMAGE_UNAVAILABLE = "/media/img/404.png"
